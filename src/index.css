@@ -7,36 +7,36 @@
 
 @layer base {
   :root {
-    /* Core Brand Colors - Professional Infrastructure Theme */
-    --background: 0 0% 100%;
-    --foreground: 215 25% 27%;
+    /* Core Brand Colors - Modern Architecture Theme */
+    --background: 45 20% 96%;
+    --foreground: 240 10% 15%;
     
-    /* Everest Blue - Primary Brand Color */
-    --primary: 214 84% 56%;
-    --primary-light: 214 84% 70%;
-    --primary-dark: 214 84% 42%;
+    /* Golden Bronze - Primary Brand Color */
+    --primary: 35 65% 55%;
+    --primary-light: 35 65% 70%;
+    --primary-dark: 35 65% 42%;
     --primary-foreground: 0 0% 100%;
     
-    /* Mountain Gray - Secondary Colors */
-    --secondary: 215 16% 47%;
-    --secondary-light: 215 16% 65%;
-    --secondary-foreground: 0 0% 100%;
+    /* Warm Gray - Secondary Colors */
+    --secondary: 45 15% 92%;
+    --secondary-light: 45 15% 88%;
+    --secondary-foreground: 240 10% 15%;
     
     /* Professional Accents */
-    --accent: 214 32% 91%;
-    --accent-foreground: 215 25% 27%;
+    --accent: 35 45% 75%;
+    --accent-foreground: 240 10% 15%;
     
     /* Surface Colors */
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    --card-foreground: 240 10% 15%;
     
-    --muted: 214 32% 97%;
-    --muted-foreground: 215 13% 65%;
+    --muted: 45 10% 90%;
+    --muted-foreground: 240 5% 45%;
     
     /* Interactive Elements */
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 214 84% 56%;
+    --border: 45 15% 85%;
+    --input: 45 15% 85%;
+    --ring: 35 65% 55%;
     
     /* Status Colors */
     --destructive: 0 84% 60%;

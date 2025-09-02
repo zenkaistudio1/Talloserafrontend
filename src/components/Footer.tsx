@@ -1,14 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const quickLinks = [
-    { name: 'About Us', href: '#about' },
-    { name: 'Our Services', href: '#services' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Careers', href: '#careers' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'About Us', path: '/about' },
+    { name: 'Our Services', path: '/services' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Careers', path: '/careers' },
+    { name: 'Contact', path: '/contact' }
   ];
 
   const services = [
@@ -25,11 +26,6 @@ const Footer = () => {
     { icon: Linkedin, href: '#', label: 'LinkedIn' },
     { icon: Instagram, href: '#', label: 'Instagram' }
   ];
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <footer className="bg-secondary text-secondary-foreground">
@@ -79,12 +75,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <button
-                    onClick={() => scrollToSection(link.href)}
+                  <Link
+                    to={link.path}
                     className="text-secondary-foreground/80 hover:text-primary transition-colors font-inter"
                   >
                     {link.name}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

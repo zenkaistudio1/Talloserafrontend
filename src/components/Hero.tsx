@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ArrowRight, Award, Building, Globe, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import heroImage from '@/assets/hero-infrastructure.jpg';
 
 const Hero = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const highlights = [
     {
       icon: Award,
@@ -28,19 +37,19 @@ const Hero = () => {
     }
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background Image with Parallax */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          transform: `translateY(${scrollY * 0.5}px)`,
+        }}
+      >
         <img 
           src={heroImage} 
           alt="Modern infrastructure construction in Nepal" 
-          className="w-full h-full object-cover"
+          className="w-full h-[120%] object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent"></div>
       </div>
@@ -56,9 +65,9 @@ const Hero = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-5xl lg:text-7xl font-playfair font-bold leading-tight mb-6">
-                Shaping the Future of{' '}
+                Modern{' '}
                 <span className="text-accent bg-background/20 px-4 py-2 rounded-2xl">
-                  Infrastructure
+                  Design
                 </span>
               </h1>
             </motion.div>
@@ -67,10 +76,9 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed font-inter"
+              className="text-lg text-white/90 mb-8 leading-relaxed font-inter"
             >
-              Everest Infra Group delivers world-class construction and engineering solutions 
-              with a focus on quality, safety, and sustainability.
+              The foundation of each architectural project is the conceptual.
             </motion.p>
 
             <motion.div
@@ -79,23 +87,15 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 mb-12"
             >
-              <Button 
-                variant="hero" 
-                size="xl"
-                onClick={() => scrollToSection('#projects')}
-                className="group"
-              >
-                Explore Our Projects
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="xl"
-                onClick={() => scrollToSection('#contact')}
-                className="border-white text-white hover:bg-white hover:text-primary"
-              >
-                Contact Us
-              </Button>
+              <Link to="/contact">
+                <Button 
+                  variant="default" 
+                  size="lg"
+                  className="group btn-professional rounded-full px-8"
+                >
+                  Contact Us
+                </Button>
+              </Link>
             </motion.div>
           </div>
 
@@ -104,21 +104,16 @@ const Hero = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="grid grid-cols-2 gap-6"
+            className="grid grid-cols-1 gap-8"
           >
-            {highlights.map((highlight, index) => (
-              <motion.div
-                key={highlight.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center text-white border border-white/20"
-              >
-                <highlight.icon size={32} className="mx-auto mb-3 text-accent" />
-                <div className="text-3xl font-bold font-playfair mb-2">{highlight.stat}</div>
-                <div className="text-sm font-inter opacity-90">{highlight.label}</div>
-              </motion.div>
-            ))}
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center text-white border border-white/20">
+              <div className="text-6xl font-bold font-playfair mb-2">234K</div>
+              <div className="text-sm font-inter opacity-90">Project Successfully Running</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center text-white border border-white/20">
+              <div className="text-6xl font-bold font-playfair mb-2">1200+</div>
+              <div className="text-sm font-inter opacity-90">Happy Clients</div>
+            </div>
           </motion.div>
         </div>
       </div>

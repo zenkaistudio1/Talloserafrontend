@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,21 +18,15 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Resources', href: '#resources' },
-    { name: 'Careers', href: '#careers' },
-    { name: 'News', href: '#news' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Resources', path: '/resources' },
+    { name: 'Careers', path: '/careers' },
+    { name: 'News', path: '/news' },
+    { name: 'Contact', path: '/contact' }
   ];
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: 'smooth' });
-    setIsMobileMenuOpen(false);
-  };
 
   return (
     <motion.nav
@@ -51,33 +47,40 @@ const Navigation = () => {
             transition={{ delay: 0.1 }}
             className="flex items-center"
           >
-            <h1 className="text-2xl font-playfair font-bold text-primary">
+            <Link to="/" className="text-2xl font-playfair font-bold text-primary">
               Everest Infra Group
-            </h1>
+            </Link>
           </motion.div>
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item, index) => (
-              <motion.button
+              <motion.div
                 key={item.name}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + index * 0.05 }}
-                onClick={() => scrollToSection(item.href)}
-                className="text-foreground hover:text-primary transition-colors font-medium"
               >
-                {item.name}
-              </motion.button>
+                <Link
+                  to={item.path}
+                  className={`text-foreground hover:text-primary transition-colors font-medium ${
+                    location.pathname === item.path ? 'text-primary' : ''
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
             ))}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <Button variant="cta" size="default" onClick={() => scrollToSection('#contact')}>
-                Get Quote
-              </Button>
+              <Link to="/contact">
+                <Button variant="default" size="default" className="btn-professional">
+                  Get Quote
+                </Button>
+              </Link>
             </motion.div>
           </div>
 
@@ -105,23 +108,27 @@ const Navigation = () => {
           >
             <div className="px-4 py-6 space-y-4">
               {navItems.map((item) => (
-                <button
+                <Link
                   key={item.name}
-                  onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left py-2 text-foreground hover:text-primary transition-colors font-medium"
+                  to={item.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block w-full text-left py-2 text-foreground hover:text-primary transition-colors font-medium ${
+                    location.pathname === item.path ? 'text-primary' : ''
+                  }`}
                 >
                   {item.name}
-                </button>
+                </Link>
               ))}
               <div className="pt-4">
-                <Button 
-                  variant="cta" 
-                  size="default" 
-                  className="w-full"
-                  onClick={() => scrollToSection('#contact')}
-                >
-                  Get Quote
-                </Button>
+                <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    variant="default" 
+                    size="default" 
+                    className="w-full btn-professional"
+                  >
+                    Get Quote
+                  </Button>
+                </Link>
               </div>
             </div>
           </motion.div>
