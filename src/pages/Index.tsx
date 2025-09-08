@@ -8,7 +8,7 @@ import Resources from '@/components/Resources';
 import Careers from '@/components/Careers';
 import News from '@/components/News';
 import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+
 
 const Index = () => {
   return (
@@ -22,7 +22,7 @@ const Index = () => {
       <Careers />
       <News />
       <Contact />
-      <Footer />
+    
     </div>
   );
 };
