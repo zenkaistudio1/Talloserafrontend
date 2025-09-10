@@ -266,7 +266,7 @@ const Footer: React.FC = () => {
               <div className="grid h-10 w-10 place-items-center rounded-lg bg-sky-600">
                 <Droplet className="h-5 w-5 text-white" />
               </div>
-              <div className="text-lg font-semibold">Yeti Hydropower</div>
+              <div className="text-lg font-semibold">Tallosera Hydropower Limited</div>
             </div>
             <p className="mt-4 text-sm text-black/70">
               Engineering and delivering clean hydropower across Nepal with safety, quality, and community partnership.
@@ -461,18 +461,8 @@ const ContactPage: React.FC = () => {
                         />
                       </div>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-2">Subject *</label>
-                      <input
-                        type="text"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 rounded-2xl border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        placeholder="Project inquiry, consultation, etc."
-                      />
-                    </div>
+                    
+                    
                     <div>
                       <label className="block text-sm font-medium text-gray-900 mb-2">Message *</label>
                       <textarea

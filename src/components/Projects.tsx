@@ -132,8 +132,8 @@ export const Header: React.FC = () => {
                   <Droplet className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
                 </div>
                 <div className="leading-tight">
-                  <div className="text-lg lg:text-xl font-semibold text-gray-900 tracking-tight">Yeti Hydropower</div>
-                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">Clean Energy</div>
+                  <div className="text-lg lg:text-xl font-semibold text-gray-900 tracking-tight">Tallosera Hydro limited</div>
+                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">Sanibheri Uttarganga Small Hydropower Project</div>
                 </div>
               </a>
 
@@ -440,7 +440,7 @@ const Footer: React.FC = () => {
               <div className="grid h-10 w-10 place-items-center rounded-lg bg-sky-600">
                 <Droplet className="h-5 w-5 text-white" />
               </div>
-              <div className="text-lg font-semibold">Yeti Hydropower</div>
+              <div className="text-lg font-semibold">Tallosera Hydro limited</div>
             </div>
             <p className="mt-4 text-sm text-black/70">
               Engineering and delivering clean hydropower across Nepal with safety, quality, and community partnership.
@@ -495,7 +495,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-10 border-t border-gray-200 pt-6 text-xs text-black/60 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div>© {new Date().getFullYear()} Yeti Hydropower. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} Tallosera Hydro limited. All rights reserved.</div>
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-black">Privacy</a>
             <a href="#" className="hover:text-black">Terms</a>

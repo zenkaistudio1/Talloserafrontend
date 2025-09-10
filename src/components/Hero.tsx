@@ -35,7 +35,7 @@ import {
   Zap,
   AlertCircle
 } from "lucide-react"
-
+import { useImagePreloader } from '../hooks/useImagePreloader'
 /* ============================ Theme (Sky Blue) ============================ */
 const brand = {
   grad: "from-sky-400 to-sky-600",
@@ -142,7 +142,7 @@ const Header: React.FC = () => {
       ],
     },
     {
-      label: "Projects progress",
+      label: "Projects",
       href: "/projects",
     
     },
@@ -205,11 +205,10 @@ const Header: React.FC = () => {
                 <div className="grid h-10 w-10 lg:h-12 lg:w-12 place-items-center rounded-xl bg-sky-600 shadow-lg shadow-sky-600/30">
                   <Droplet className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
                 </div>
-                <div className="font-jakarta leading-tight">
-                  <div className="text-lg lg:text-xl font-semibold text-gray-900 tracking-tight">Yeti Hydropower</div>
-                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">
-                    Clean Energy
-                  </div>
+                 <div className="leading-tight">
+                  <div className="text-lg lg:text-xl font-semibold text-gray-900 tracking-tight">Tallosera Hydro limited</div>
+                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">Sanibheri Uttarganga Small Hydropower Project</div>
+                
                 </div>
               </a>
 
@@ -356,8 +355,7 @@ const Header: React.FC = () => {
 const SLIDES = [
   {
     id: 1,
-    image:
-      "https://powerefficiency.com/wp-content/uploads/2023/06/bigstock-Hydroelectric-Power-Station-On-463557553.jpg",
+    image: "https://powerefficiency.com/wp-content/uploads/2023/06/bigstock-Hydroelectric-Power-Station-On-463557553.jpg",
     tag: "Run-of-River",
     titleA: "Powering Nepal",
     titleB: "With Clean Water",
@@ -367,8 +365,7 @@ const SLIDES = [
   },
   {
     id: 2,
-    image:
-      "https://images.unsplash.com/photo-1503754163129-a02a0c097de0?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1503754163129-a02a0c097de0?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tag: "Reservoir",
     titleA: "Energy Storage",
     titleB: "That Scales",
@@ -378,8 +375,7 @@ const SLIDES = [
   },
   {
     id: 3,
-    image:
-      "https://images.unsplash.com/photo-1606050309588-741702cceb9b?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1606050309588-741702cceb9b?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tag: "Grid Integration",
     titleA: "From River",
     titleB: "To Grid",
@@ -389,8 +385,7 @@ const SLIDES = [
   },
   {
     id: 4,
-    image:
-      "https://plus.unsplash.com/premium_photo-1678167657597-665c6589a3a6?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://plus.unsplash.com/premium_photo-1678167657597-665c6589a3a6?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tag: "O&M & Upgrades",
     titleA: "Uptime You",
     titleB: "Can Trust",
@@ -404,7 +399,6 @@ const AUTOPLAY_MS = 6000
 
 function useAutoplay(enabled: boolean, delay: number, cb: () => void) {
   const t = useRef<ReturnType<typeof setTimeout> | null>(null)
-
   useEffect(() => {
     if (!enabled) return
     if (t.current) clearTimeout(t.current)
@@ -429,18 +423,10 @@ const NavButton = React.forwardRef<HTMLButtonElement, NavButtonProps>(({ side, c
     ref={ref}
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className={`absolute ${
-      side === "left" ? "left-3 sm:left-4" : "right-3 sm:right-4"
-    } top-1/2 -translate-y-1/2 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full 
-      bg-white/95 backdrop-blur-sm border border-sky-100 shadow-md hover:shadow-lg 
-      transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${className}`}
+    className={`absolute ${side === "left" ? "left-3 sm:left-4" : "right-3 sm:right-4"} top-1/2 -translate-y-1/2 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full bg-white/95 backdrop-blur-sm border border-sky-100 shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-400/30 ${className}`}
     {...props}
   >
-    {side === "left" ? (
-      <ChevronLeft className="h-4 w-4 text-black/70" />
-    ) : (
-      <ChevronRight className="h-4 w-4 text-black/70" />
-    )}
+    {side === "left" ? <ChevronLeft className="h-4 w-4 text-black/70" /> : <ChevronRight className="h-4 w-4 text-black/70" />}
   </motion.button>
 ))
 NavButton.displayName = "NavButton"
@@ -449,22 +435,22 @@ const Hero: React.FC = () => {
   const [i, setI] = useState(0)
   const [playing, setPlaying] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const shouldReduceMotion = useReducedMotion()
-
   const total = SLIDES.length
   const wrap = (n: number) => (n + total) % total
 
-  // lighter parallax so text moves less
+  const s = SLIDES[i]
+  const slideLabel = `${s.tag} – ${s.titleA} ${s.titleB}`
+  const progressEnabled = playing && !isHovered && !shouldReduceMotion
+
   const heroRef = useRef<HTMLDivElement | null>(null)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start end", "end start"] })
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -20])
 
   // swipe
   const start = useRef<{ x: number; y: number } | null>(null)
-  const onPointerDown = (e: React.PointerEvent) => {
-    ;(e.target as Element).setPointerCapture?.(e.pointerId)
-    start.current = { x: e.clientX, y: e.clientY }
-  }
+  const onPointerDown = (e: React.PointerEvent) => { (e.target as Element).setPointerCapture?.(e.pointerId); start.current = { x: e.clientX, y: e.clientY } }
   const onPointerUp = (e: React.PointerEvent) => {
     if (!start.current) return
     const dx = e.clientX - start.current.x
@@ -487,9 +473,7 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener("keydown", onKey)
   }, [])
 
-  const s = SLIDES[i]
-  const progressEnabled = playing && !isHovered && !shouldReduceMotion
-  const slideLabel = `${s.tag} – ${s.titleA} ${s.titleB}`
+  useEffect(() => setLoaded(false), [i]) // reset loaded on slide change
 
   return (
     <section id="top" className="relative pt-12 sm:pt-14 pb-12 sm:pb-16 bg-gray-50">
@@ -505,100 +489,74 @@ const Hero: React.FC = () => {
           aria-roledescription="carousel"
           aria-label="Featured hydropower projects"
         >
-          <div className="relative">
-            {/* Responsive aspect (less zoomy) */}
-            <div className="relative aspect-[4/3] sm:aspect-[16/9] xl:aspect-[21/9] min-h-[360px]">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={s.id}
-                  src={s.image}
-                  alt={slideLabel}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  loading={i === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  // no scale-up to avoid zoom feel
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-                />
-              </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
-            </div>
+          <div className="relative aspect-[4/3] sm:aspect-[16/9] xl:aspect-[21/9] min-h-[360px]">
+            {!loaded && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={s.id}
+                src={s.image}
+                alt={slideLabel}
+                className="absolute inset-0 h-full w-full object-cover"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: loaded ? 1 : 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+                onLoad={() => setLoaded(true)}
+              />
+            </AnimatePresence>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
+          </div>
 
-            {/* content with gentler parallax */}
-            <motion.div style={{ y: yParallax }} className="absolute inset-0 flex items-end p-6 sm:p-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 w-full max-w-5xl">
-                <motion.div
-                  key={`content-${s.id}`}
-                  initial={{ opacity: 0, x: -24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -16 }}
-                  transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="text-white pl-6 sm:pl-10"
-                >
-                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/20 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider text-white/90">
-                    <s.icon className="h-4 w-4 text-white/90" />
-                    {s.tag}
+          <motion.div style={{ y: yParallax }} className="absolute inset-0 flex items-end p-6 sm:p-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 w-full max-w-5xl">
+              <motion.div
+                key={`content-${s.id}`}
+                initial={{ opacity: 0, x: -24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -16 }}
+                transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="text-white pl-6 sm:pl-10"
+              >
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/20 backdrop-blur-sm px-3 py-1 text-xs uppercase tracking-wider text-white/90">
+                  <s.icon className="h-4 w-4 text-white/90" />
+                  {s.tag}
+                </div>
+                <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-white tracking-tight mb-2">{s.titleA}</h2>
+                <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-sky-400 tracking-tight mb-3">{s.titleB}</h2>
+                <p className="font-inter text-sm sm:text-base leading-relaxed text-white/90 max-w-lg mb-5">{s.desc}</p>
+                <a href={s.cta.href} className="group inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm px-5 py-2.5 text-sm font-inter text-white transition-all hover:bg-white/20 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-sky-600/20">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-sky-600 text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="relative">{s.cta.label}</span>
+                </a>
+              </motion.div>
+
+              {/* right controls */}
+              <div className="hidden sm:flex justify-end items-end">
+                <div className="flex flex-col items-end gap-3">
+                  <div className="flex items-center gap-2">
+                    {SLIDES.map((_, di) => (
+                      <button
+                        key={di}
+                        onClick={() => { setI(di); setPlaying(false) }}
+                        className={`h-2.5 w-2.5 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-600/40 ${di === i ? "bg-sky-600 shadow-md shadow-sky-600/30" : "bg-white/60 hover:bg-white/80"}`}
+                        aria-label={`Go to slide ${di + 1}`}
+                      />
+                    ))}
                   </div>
-
-                  <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-white tracking-tight mb-2">
-                    {s.titleA}
-                  </h2>
-                  <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-sky-400 tracking-tight mb-3">
-                    {s.titleB}
-                  </h2>
-
-                  <p className="font-inter text-sm sm:text-base leading-relaxed text-white/90 max-w-lg mb-5">
-                    {s.desc}
-                  </p>
-
-                  <a
-                    href={s.cta.href}
-                    className="group inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm px-5 py-2.5 text-sm font-inter text-white transition-all hover:bg-white/20 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-sky-600/20"
+                  <button
+                    onClick={() => setPlaying((p) => !p)}
+                    className={`grid h-10 w-10 place-items-center rounded-full border transition-all duration-200 ${playing ? "border-white/30 bg-white/10 hover:bg-white/20 text-white" : "border-sky-600 bg-sky-600 text-white hover:bg-sky-700 shadow-md shadow-sky-600/30"}`}
+                    aria-label={playing ? "Pause slideshow" : "Play slideshow"}
                   >
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-sky-600 text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </span>
-                    <span className="relative">
-                      {s.cta.label}
-                      <span className="absolute inset-x-0 -bottom-0.5 h-px bg-white/30 scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
-                    </span>
-                  </a>
-                </motion.div>
-
-                {/* right controls */}
-                <div className="hidden sm:flex justify-end items-end">
-                  <div className="flex flex-col items-end gap-3">
-                    <div className="flex items-center gap-2">
-                      {SLIDES.map((_, di) => (
-                        <button
-                          key={di}
-                          onClick={() => { setI(di); setPlaying(false) }}
-                          className={`h-2.5 w-2.5 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-600/40 ${
-                            di === i ? "bg-sky-600 shadow-md shadow-sky-600/30" : "bg-white/60 hover:bg-white/80"
-                          }`}
-                          aria-label={`Go to slide ${di + 1}`}
-                        />
-                      ))}
-                    </div>
-                    <button
-                      onClick={() => setPlaying((p) => !p)}
-                      className={`grid h-10 w-10 place-items-center rounded-full border transition-all duration-200 ${
-                        playing
-                          ? "border-white/30 bg-white/10 hover:bg-white/20 text-white"
-                          : "border-sky-600 bg-sky-600 text-white hover:bg-sky-700 shadow-md shadow-sky-600/30"
-                      }`}
-                      aria-label={playing ? "Pause slideshow" : "Play slideshow"}
-                    >
-                      {playing ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4 ml-0.5" />}
-                    </button>
-                  </div>
+                    {playing ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4 ml-0.5" />}
+                  </button>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
           {/* progress */}
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/10">
@@ -619,6 +577,7 @@ const Hero: React.FC = () => {
     </section>
   )
 }
+
 
 /* ============================ Logo Marquee ============================ */
 const LogoMarquee: React.FC = () => {
@@ -688,8 +647,9 @@ const StatsSection: React.FC = () => {
   )
 }
 
-/* ============================ Why Choose Us (BlueCard) ============================ */
-const WhyUs: React.FC = () => {
+/* ============================ Others Section (Reusable) ============================ */
+
+const Others: React.FC = () => {
   const pills = [
     { label: "Bankable DPRs" },
     { label: "Lender Standards" },
@@ -719,8 +679,21 @@ const WhyUs: React.FC = () => {
   ]
 
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-b from-white to-sky-50/40">
-      <div className="mx-auto max-w-7xl px-4">
+  <section className="pt-4 sm:pt-6 pb-16 sm:pb-24 bg-gradient-to-b from-white to-sky-50/40">
+  <div className="mx-auto max-w-7xl px-4 mt-0">
+    
+    {/* Section heading */}
+    <div className="text-center mb-8 mt-0">
+      <h2 className="font-jakarta text-3xl sm:text-4xl font-bold text-black mt-0">
+        More from Tallosera Hydropower
+      </h2>
+      <p className="mt-1 text-black/70 max-w-2xl mx-auto">
+        Additional highlights and commitments that ensure sustainable and bankable hydropower delivery.
+      </p>
+    </div>
+
+
+
         {/* Top row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
           {/* Headline card */}
@@ -731,14 +704,15 @@ const WhyUs: React.FC = () => {
             className="lg:col-span-2 rounded-3xl border border-sky-100 bg-white shadow-md p-8 sm:p-10"
           >
             <div className="inline-flex items-center gap-2 rounded-full bg-sky-50 text-sky-700 px-3 py-1 text-xs font-medium mb-4">
-              Why Yeti Hydropower
+              Snapshot
             </div>
-            <h2 className="font-jakarta text-3xl sm:text-4xl font-semibold tracking-tight text-black">
-              Bankable hydropower. <span className="text-sky-600">Built for the grid.</span>
-            </h2>
+            <h3 className="font-jakarta text-2xl sm:text-3xl font-semibold tracking-tight text-black">
+              Bankable hydropower.{" "}
+              <span className="text-sky-600">Built for the grid.</span>
+            </h3>
             <p className="mt-3 text-black/70 max-w-2xl">
-              From feasibility to COD and O&M, we deliver lender-grade documentation, safe execution, and dispatch-ready
-              plants that perform.
+              From feasibility to COD and O&M, we deliver lender-grade documentation, safe execution, 
+              and dispatch-ready plants that perform across projects.
             </p>
 
             <div className="flex flex-wrap gap-2 mt-5">
@@ -1234,7 +1208,7 @@ const Footer: React.FC = () => {
               <div className="grid h-10 w-10 place-items-center rounded-lg bg-sky-600">
                 <Droplet className="h-5 w-5 text-white" />
               </div>
-              <div className="text-lg font-semibold">Yeti Hydropower</div>
+              <div className="text-lg font-semibold"> Tallosera Hydro limited</div>
             </div>
             <p className="mt-4 text-sm text-black/70">
               Engineering and delivering clean hydropower across Nepal with safety, quality, and community partnership.
@@ -1336,7 +1310,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="mt-10 border-t border-gray-200 pt-6 text-xs text-black/60 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div>© {new Date().getFullYear()} Yeti Hydropower. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} Tallosera Hydro limited. All rights reserved.</div>
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-black">
               Privacy
@@ -1458,8 +1432,8 @@ const WelcomePopup: React.FC = () => {
               </svg>
             </div>
             <div className="text-center">
-              <h1 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug">YETI HYDROPOWER COMPANY LIMITED</h1>
-              <h2 className="text-sm sm:text-base text-gray-700">येति हाइड्रोपावर कम्पनी लिमिटेड</h2>
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug"> Tallosera Hydro limited</h1>
+              <h2 className="text-sm sm:text-base text-gray-700">तल्लोसेरा हाइड्रो लिमिटेड</h2>
               <p className="text-xs text-gray-600">कार्यालय, काठमाडौं - ३२</p>
             </div>
           </div>
@@ -1514,10 +1488,10 @@ const AboutUsSection: React.FC = () => {
         <div className="text-center mb-10 sm:mb-12">
           <p className="text-xs sm:text-sm font-medium text-sky-600 tracking-wide uppercase">Welcome to</p>
           <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-2">
-            Yeti Hydropower Company Limited
+            Sanibheri Uttarganga Small Hydropower Project
           </h2>
           <p className="mt-2 text-base sm:text-lg text-gray-600">
-            येति हाइड्रोपावर कम्पनी लिमिटेड
+            सानीबेरी उत्तरगंगा लघु जलविद्युत आयोजना
           </p>
         </div>
 
@@ -1526,31 +1500,26 @@ const AboutUsSection: React.FC = () => {
           {/* Left: copy + CTAs (compact) */}
           <BlueCard className="p-6 sm:p-8">
             <div className="space-y-5">
-              <p className="text-gray-700 leading-relaxed">
-                Yeti Hydropower Company Limited (YHCL) is a subsidiary of Vidhyut Utpadan Company Limited (VUCL),
-                established in 2017 to develop the Jagdulla Peaking Run-of-River Hydroelectric Project (JHEP).
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                The site lies ~750 km west of Kathmandu on the Jagdulla River near Jagdulla Rural Municipality,
-                Dolpa (Karnali Province), contributing to Nepal’s renewable energy infrastructure.
-              </p>
+  <p className="text-gray-700 leading-relaxed">
+    Tallosera Hydropower Company Limited (THCL) is a subsidiary of Vidhyut Utpadan Company Limited (VUCL),
+    established in 2017 to develop the Peaking Run-of-River Hydroelectric Project (PRoRHEP).
+  </p>
+  <p className="text-gray-700 leading-relaxed">
+    The site lies ~750 km west of Kathmandu, contributing to Nepal’s renewable energy infrastructure.
+  </p>
+
+
 
               {/* Actions – compact pill buttons */}
               <div className="pt-1 flex flex-wrap items-center gap-3">
-                <a
-                  href="/about"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
-                             bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
-                >
-                  More About Us
-                </a>
+               
                 <a
                   href="/projects"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
                              border border-sky-200 bg-white text-sky-700 hover:border-sky-300 hover:bg-sky-50
                              focus:outline-none focus:ring-2 focus:ring-sky-500/20"
                 >
-                  View Projects
+                  View Projects progress
                 </a>
               </div>
             </div>
@@ -1625,7 +1594,7 @@ const SalientFeaturesSection: React.FC = () => {
       title: "HEADWORKS",
       icon: Building,
       specs: [
-        { label: "Location", value: "Hurikot -1, Jagdulla Rural Municipality" },
+        { label: "Location", value: "Hurikot -1, Dolpa (Karnali Province)" },
         { label: "Dam", value: "Dam (3 nos. opening) with emergency spillway" },
         { label: "Dam Crest Level", value: "2678.00 masl" },
         { label: "Spillway Crest Level", value: "2696.00 masl" },
@@ -1635,7 +1604,7 @@ const SalientFeaturesSection: React.FC = () => {
       title: "POWERHOUSE",
       icon: Zap,
       specs: [
-        { label: "Location", value: "Mudkechula -4, Mudkechula Rural Municipality" },
+        { label: "Location", value: "Mudkechula -4, Dolpa (Karnali Province)" },
         { label: "Headrace Tunnel Length", value: "6.135 Km (3.8m Dia)" },
         { label: "Pressure Shaft", value: "1406.69m (2.1m Diameter)" },
         { label: "Powerhouse", value: "Underground (77.8 m (L) x14 m (B) x33.45 m (H))" },
@@ -1647,7 +1616,9 @@ const SalientFeaturesSection: React.FC = () => {
     <section className="py-16 sm:py-20 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4">
         <div className="text-center mb-12">
-          <p className="text-sm font-medium text-sky-600 mb-2">JAGDULLA PEAKING RUN-OF-RIVER HYDROELECTRIC PROJECT</p>
+          <p className="text-sm font-medium text-sky-600 mb-2">
+            TALLOSERA PEAKING RUN-OF-RIVER HYDROELECTRIC PROJECT
+          </p>
           <h2 className="font-jakarta text-3xl sm:text-4xl font-bold text-black">Salient Features</h2>
         </div>
 
@@ -1693,6 +1664,7 @@ const SalientFeaturesSection: React.FC = () => {
   )
 }
 
+
 /* ============================ Page ============================ */
 const YetiHydroHome: React.FC = () => {
   return (
@@ -1708,8 +1680,8 @@ const YetiHydroHome: React.FC = () => {
         <SalientFeaturesSection />
         <LogoMarquee />
         
-        <WhyUs />
-        <ServicesSection />
+        <Others />
+        
         <ProcessSection />
         <ProjectsSection />
         

@@ -13,7 +13,7 @@ const Overview: React.FC = () => {
         <section className="mx-auto max-w-7xl px-4 py-14">
           <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900">Company Overview</h1>
           <p className="mt-3 max-w-3xl text-gray-700">
-            Yeti Hydropower Company Limited (YHCL) delivers bankable hydropower—from feasibility and design to EPC,
+            Tallosera Hydro limited delivers bankable hydropower—from feasibility and design to EPC,
             commissioning, and long-term O&amp;M—meeting lender standards and grid code requirements.
           </p>
 

@@ -45,7 +45,7 @@ const App = () => (
         <div className="min-h-screen bg-background font-inter">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
+            
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
