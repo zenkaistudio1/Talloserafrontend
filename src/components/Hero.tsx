@@ -207,7 +207,7 @@ const Header: React.FC = () => {
                 </div>
                  <div className="leading-tight">
                   <div className="text-lg lg:text-xl font-semibold text-gray-900 tracking-tight">Tallosera Hydro limited</div>
-                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">Sanibheri Uttarganga Small Hydropower Project</div>
+                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">Sanibheri Uttarganga Hydropower</div>
                 
                 </div>
               </a>
@@ -1490,7 +1490,7 @@ const AboutUsSection: React.FC = () => {
         <div className="text-center mb-10 sm:mb-12">
           <p className="text-xs sm:text-sm font-medium text-sky-600 tracking-wide uppercase">Welcome to</p>
           <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-2">
-            Sanibheri Uttarganga Small Hydropower Project
+            Sanibheri Uttarganga Hydropower
           </h2>
           <p className="mt-2 text-base sm:text-lg text-gray-600">
             सानीबेरी उत्तरगंगा लघु जलविद्युत आयोजना

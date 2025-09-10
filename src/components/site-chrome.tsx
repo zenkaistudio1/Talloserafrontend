@@ -124,7 +124,7 @@ export const Header: React.FC = () => {
                 </div>
                 <div className="leading-tight">
                   <div className="text-lg lg:text-xl font-semibold text-gray-900 tracking-tight">Tallosera Hydro limited</div>
-                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">Sanibheri Uttarganga Small Hydropower Project</div>
+                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">Sanibheri Uttarganga Hydropower</div>
                 
                 </div>
               </a>
