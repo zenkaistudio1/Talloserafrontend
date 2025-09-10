@@ -14,6 +14,9 @@ import {
   MapPin,
   ExternalLink,
   Star,
+  AlertCircle,
+  Clock,
+  CheckCircle,
 } from "lucide-react"
 
 
@@ -73,19 +76,13 @@ export const Header: React.FC = () => {
       ],
     },
     {
-      label: "Projects",
+      label: "Projects progress",
       href: "/projects",
-      hasDropdown: true,
-      dropdownItems: [
-        { label: "Run-of-River Plants", href: "/projects" },
-        { label: "Reservoir Plants", href: "/projects" },
-        { label: "Transmission & Substations", href: "/projects" },
-        { label: "O&M & Upgrades", href: "/projects" },
-      ],
+      
     },
     {
       label: "Downloads",
-      href: "/downloads",
+      href: "/downloads/forms",
       hasDropdown: true,
       dropdownItems: [
         { label: "Forms", href: "/downloads/forms" },
@@ -95,7 +92,7 @@ export const Header: React.FC = () => {
     },
     {
       label: "Notice Board",
-      href: "/notice",
+      href: "/notice-board",
       hasDropdown: true,
       dropdownItems: [
         { label: "Tender Notices", href: "/notice/tender" },
@@ -266,124 +263,161 @@ export const Header: React.FC = () => {
 }
 
 /* ============================ Projects (Sky Blue Cards) ============================ */
-const ProjectsSection: React.FC = () => {
-  const projects = [
+const ProjectsContinuation: React.FC = () => {
+  const nextPhases = [
+      // Phase 1
     {
-      image:
-        "https://plus.unsplash.com/premium_photo-1678446510354-5c39e3409c59?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aHlkcm9wb3dlciUyMHByb2plY3R8ZW58MHx8MHx8fDA%3D",
-      category: "Reservoir",
-      title: "Upper Yeti Reservoir HPP (120 MW)",
-      location: "Gandaki Province",
-      year: "2024",
-      desc: "Concrete gravity dam with Pelton turbines and 132 kV GIS substation for reliable power generation.",
-    },
+       image: "https://westernexcavationnd.com/wp-content/uploads/2022/08/Site-development-3-1024x683.jpeg",
+            phase: "Phase 1",
+            title: "Site Development & Infrastructure",
+            progress: 85,
+            status: "Nearly Complete",
+            statusIcon: CheckCircle,
+            statusColor: "text-emerald-600",
+            description: "Dam construction, access roads, and primary infrastructure completed. Final safety inspections in progress.",
+            milestones: ["Foundation Complete", "Access Roads Built", "Safety Systems Installed"]
+          },
+          {
+            image: "https://www.enerpac.com/ccstore/v1/images/?source=/file/v1448728257236948400/products/Turbine-Installation-SBL1100-Gantry-20141114_110327.jpg",
+            phase: "Phase 2",
+            title: "Turbine Installation & Power House",
+            progress: 68,
+            status: "In Progress",
+            statusIcon: Clock,
+            statusColor: "text-blue-600",
+            description: "Turbine assembly 70% complete. Electrical systems and control room setup underway. On schedule for Q2 completion.",
+            milestones: ["Turbines 70% Installed", "Control Room Setup", "Testing Phase Initiated"]
+          },
+          {
+            image: "https://a57.foxnews.com/media.foxbusiness.com/BrightCove/854081161001/201608/851/0/0/854081161001_5079800206001_solar-panels-ap1.jpg?ve=1&tl=1",
+            phase: "Phase 3",
+            title: "Grid Connection & Commissioning",
+            progress: 32,
+            status: "Upcoming",
+            statusIcon: AlertCircle,
+            statusColor: "text-amber-600",
+            description: "Substation construction started. Grid integration planning complete. Expected commissioning by Q3 2024.",
+            milestones: ["Substation 30% Complete", "Grid Planning Done", "Testing Protocols Ready"]
+          },
+    // Phase 4
     {
-      image:
-        "https://images.unsplash.com/photo-1606049910442-36d2f218a5ca?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aHlkcm9wb3dlciUyMHByb2plY3R8ZW58MHx8MHx8fDA%3D",
-      category: "Run-of-River",
-      title: "Bhote Koshi RoR HPP (48 MW)",
-      location: "Bagmati Province",
-      year: "2023",
-      desc: "Advanced headrace tunnel design with steel penstock, digital governor and SCADA integration.",
+      image: "https://th.bing.com/th/id/R.db1661462b8cc06c463d3c64be24e17c?rik=6usvHpo7Mkrc6w&pid=ImgRaw&r=0",
+      phase: "Phase 4",
+      title: "Transmission Line & Substation",
+      progress: 50,
+      status: "In Progress",
+      statusIcon: Clock,
+      statusColor: "text-blue-600",
+      description: "132 kV transmission line erection halfway complete. Substation civil works ongoing. Scheduled to energize by Q4 2024.",
+      milestones: ["Line 50% Complete", "Substation 40% Complete", "Energization Prep Started"],
     },
+    // Phase 5
     {
-      image:
-        "https://plus.unsplash.com/premium_photo-1727344751168-03790785caf2?q=80&w=1075&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      category: "Grid Integration",
-      title: "Substation & Transmission Line",
-      location: "Province 1",
-      year: "2022",
-      desc: "220/132 kV AIS substation with protection coordination and OPGW fiber integration.",
+      image: "https://www.hahnelec.com.au/wp-content/uploads/2021/10/testing-commisioning.jpg",
+      phase: "Phase 5",
+      title: "Testing & Commissioning",
+      progress: 15,
+      status: "Upcoming",
+      statusIcon: AlertCircle,
+      statusColor: "text-amber-600",
+      description: "Electrical and mechanical testing phase. Integration with grid control systems. Expected commissioning Q1 2025.",
+      milestones: ["Component Testing Started", "SCADA Integration Pending", "Trial Runs Scheduled"],
     },
+    // Phase 6
     {
-      image:
-        "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHlkcm9wb3dlciUyMGRhbXxlbnwwfHwwfHx8MA%3D%3D",
-      category: "Reservoir",
-      title: "Karnali Multi-Purpose HPP (85 MW)",
-      location: "Karnali Province",
-      year: "2023",
-      desc: "Multi-purpose reservoir project with flood control and irrigation benefits for local communities.",
+      image: "https://th.bing.com/th/id/R.525c278c333e2ffb8e03b52fad554ea2?rik=%2fm1w6OVh6v4XlA&pid=ImgRaw&r=0",
+      phase: "Phase 6",
+      title: "O&M & Upgrades",
+      progress: 0,
+      status: "Planned",
+      statusIcon: AlertCircle,
+      statusColor: "text-gray-500",
+      description: "Operational optimization, turbine refurbishments, and long-term maintenance planning. Scheduled for 2025–2026.",
+      milestones: ["Maintenance Plan Drafted", "Upgrade Scope Defined", "Staff Training Planned"],
     },
-    {
-      image:
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aHlkcm9wb3dlciUyMHR1cmJpbmV8ZW58MHx8MHx8fDA%3D",
-      category: "Run-of-River",
-      title: "Marsyangdi RoR HPP (32 MW)",
-      location: "Gandaki Province",
-      year: "2022",
-      desc: "Environmentally sustainable run-of-river design with fish ladder and minimal ecological impact.",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHlkcm9wb3dlciUyMGRhbXxlbnwwfHwwfHx8MA%3D%3D",
-      category: "O&M Services",
-      title: "Trishuli HPP Upgrade (28 MW)",
-      location: "Bagmati Province",
-      year: "2024",
-      desc: "Complete turbine refurbishment and control system modernization for enhanced efficiency.",
-    },
-  ]
+  ];
+
+  const getProgressColor = (progress: number) => {
+    if (progress >= 80) return "bg-emerald-500";
+    if (progress >= 50) return "bg-blue-500";
+    return "bg-amber-500";
+  };
+
+  const getProgressBgColor = (progress: number) => {
+    if (progress >= 80) return "bg-emerald-100";
+    if (progress >= 50) return "bg-blue-100";
+    return "bg-amber-100";
+  };
 
   return (
-    <section id="projects" className="py-16 sm:py-20 bg-white">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="mb-8 sm:mb-10">
-          <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-black">
-            Recent Projects
+    <section id="projects" className="py-12 sm:py-16 bg-gradient-to-br from-slate-50 to-sky-50">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="mb-10 text-center">
+          <h2 className="font-jakarta text-2xl sm:text-3xl lg:text-4xl font-semibold text-black mb-2">
+            Project Progress Overview
           </h2>
-          <p className="mt-3 font-inter text-black/60 max-w-2xl">
-            Clean, reliable hydropower delivered with safety, quality, and community partnership.
+          <p className="font-inter text-black/60 max-w-3xl mx-auto text-base sm:text-lg">
+            Real-time updates on all phases of our 120 MW hydropower development.
           </p>
         </div>
 
-        {/* equal-height cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {projects.map((p, idx) => (
+        {/* Phase Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {nextPhases.map((phase, idx) => (
             <motion.article
-              key={p.title}
-              initial={{ opacity: 0, y: 18 }}
+              key={phase.title}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.06 }}
-              viewport={{ once: true, margin: "-80px" }}
-              className="rounded-2xl overflow-hidden border border-sky-100 bg-gradient-to-br from-white to-sky-50 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all"
+              transition={{ delay: idx * 0.08 }}
+              viewport={{ once: true }}
+              className="rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg hover:-translate-y-1 transition-all border border-sky-100"
             >
-              <div className="relative aspect-[16/10]">
+              <div className="relative aspect-[16/9]">
                 <img
-                  src={p.image || "/placeholder.svg"}
-                  alt={p.title}
+                  src={phase.image}
+                  alt={phase.title}
                   className="absolute inset-0 h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-                <div className="absolute left-4 bottom-3 right-4 flex items-center justify-between">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-black backdrop-blur-sm">
-                    {p.category}
-                  </span>
-                  <span className="text-white/90 text-xs inline-flex items-center gap-1">
-                    <Calendar className="h-3.5 w-3.5" /> {p.year}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <div className="absolute top-2 left-2">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium text-black backdrop-blur-sm shadow">
+                    {phase.phase}
                   </span>
                 </div>
               </div>
 
-              <div className="p-6 flex flex-col h-full">
-                <h3 className="font-jakarta font-semibold text-lg text-gray-900 mb-2">{p.title}</h3>
-                <div className="font-inter text-sm text-gray-600 flex items-center gap-1.5 mb-3">
-                  <MapPin className="h-4 w-4" /> {p.location}
+              <div className="p-4 space-y-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <phase.statusIcon className={`${phase.statusColor} h-4 w-4`} />
+                  <span className={`${phase.statusColor} font-medium text-sm`}>{phase.status}</span>
                 </div>
 
-                <p className="font-inter text-sm text-gray-700 mb-4 flex-grow">{p.desc}</p>
+                <h3 className="font-jakarta text-lg font-semibold text-black line-clamp-2">{phase.title}</h3>
 
-                <div className="flex items-center justify-between">
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-1.5 text-sm font-inter font-medium text-sky-700 hover:text-sky-800"
-                  >
-                    Case Study <ExternalLink className="h-4 w-4" />
-                  </a>
-                  <div className="flex items-center gap-1 text-sky-500">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-current" />
-                    ))}
+                <div className="mb-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs text-black/70 font-medium">Progress</span>
+                    <span className="text-xs font-bold text-black">{phase.progress}%</span>
                   </div>
+                  <div className={`w-full ${getProgressBgColor(phase.progress)} rounded-full h-2`}>
+                    <motion.div
+                      className={`${getProgressColor(phase.progress)} h-2 rounded-full`}
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${phase.progress}%` }}
+                      transition={{ duration: 1.2, delay: idx * 0.1 }}
+                      viewport={{ once: true }}
+                    />
+                  </div>
+                </div>
+
+                <p className="text-xs text-black/70 line-clamp-2">{phase.description}</p>
+
+                <div className="flex flex-wrap gap-1">
+                  {phase.milestones.map((m, i) => (
+                    <span key={i} className="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
+                      {m}
+                    </span>
+                  ))}
                 </div>
               </div>
             </motion.article>
@@ -391,8 +425,8 @@ const ProjectsSection: React.FC = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 /* ============================ Footer (same as improved site-wide) ============================ */
 const Footer: React.FC = () => {
@@ -480,7 +514,7 @@ const ProjectsPage: React.FC = () => {
       <ScrollProgress />
       <Header />
       <main>
-        <ProjectsSection />
+        <ProjectsContinuation />
       </main>
       <Footer />
       <GlobalFixes />

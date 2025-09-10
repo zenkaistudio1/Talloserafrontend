@@ -67,19 +67,13 @@ export const Header: React.FC = () => {
       ],
     },
     {
-      label: "Projects",
+      label: "Projects progress",
       href: "/projects",
-      hasDropdown: true,
-      dropdownItems: [
-        { label: "Run-of-River Plants", href: "/projects" },
-        { label: "Reservoir Plants", href: "/projects" },
-        { label: "Transmission & Substations", href: "/projects" },
-        { label: "O&M & Upgrades", href: "/projects" },
-      ],
+      
     },
     {
       label: "Downloads",
-      href: "/downloads",
+      href: "/downloads/forms",
       hasDropdown: true,
       dropdownItems: [
         { label: "Forms", href: "/downloads/forms" },
