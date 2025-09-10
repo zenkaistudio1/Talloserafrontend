@@ -1,10 +1,15 @@
 "use client"
 
-import React, { useEffect, useRef, useState, type ComponentProps } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion"
-import { Droplet, Menu, X, ChevronDown, Phone, Mail, MapPin, Clock } from "lucide-react"
-
-
+import {
+  Droplet,
+  ChevronDown,
+  Menu,
+  X,
+  Phone,
+  Mail,
+} from "lucide-react"
 
 /* ===== tiny style fixes & marquee util kept minimal ===== */
 export const GlobalFixes = () => (
@@ -87,9 +92,9 @@ export const Header: React.FC = () => {
       href: "/notice",
       hasDropdown: true,
       dropdownItems: [
-        { label: "Tender Notices", href: "/notice/tender" },
-        { label: "Announcements", href: "/notice/announcements" },
-        { label: "Careers", href: "/notice/careers" },
+        { label: "Tender Notices", href: "/notice-board/tenders" },
+        { label: "Announcements", href: "/notice-board/announcements" },
+        { label: "Careers", href: "/notice-board/careers" },
       ],
     },
     { label: "Gallery", href: "/gallery" },
@@ -254,8 +259,8 @@ export const Header: React.FC = () => {
   )
 }
 
-/* ============================ Footer (EXACT from your snippet) ============================ */
-const Footer: React.FC = () => {
+/* ===== Footer (sky accents) ===== */
+export const Footer: React.FC = () => {
   return (
     <footer className="relative bg-white">
       <div className="h-2 bg-gradient-to-r from-sky-600 via-sky-500 to-sky-600" />
@@ -272,35 +277,29 @@ const Footer: React.FC = () => {
               Engineering and delivering clean hydropower across Nepal with safety, quality, and community partnership.
             </p>
             <div className="mt-4 flex gap-2">
-              <span className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-1 text-[11px] text-black/70">
-                ISO 9001
-              </span>
-              <span className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-1 text-[11px] text-black/70">
-                ISO 14001
-              </span>
-              <span className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-1 text-[11px] text-black/70">
-                OHS
-              </span>
+              <span className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-1 text-[11px] text-black/70">ISO 9001</span>
+              <span className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-1 text-[11px] text-black/70">ISO 14001</span>
+              <span className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-1 text-[11px] text-black/70">OHS</span>
             </div>
           </div>
 
           <div>
             <h4 className="font-semibold mb-3">Company</h4>
             <ul className="space-y-2 text-sm text-black/70">
-              <li><a href="/about" className="hover:text-black">About</a></li>
-              <li><a href="/#services" className="hover:text-black">Services</a></li>
-              <li><a href="/#projects" className="hover:text-black">Projects</a></li>
-              <li><a href="/contact" className="hover:text-black">Contact</a></li>
+              <li><a href="/company" className="hover:text-black">Overview</a></li>
+              <li><a href="/company/board" className="hover:text-black">Board of Directors</a></li>
+              <li><a href="/company/management" className="hover:text-black">Management Team</a></li>
+              <li><a href="/company/policies" className="hover:text-black">Legal & Policies</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-3">Resources</h4>
+            <h4 className="font-semibold mb-3">Projects</h4>
             <ul className="space-y-2 text-sm text-black/70">
-              <li><a href="#" className="hover:text-black">Whitepapers</a></li>
-              <li><a href="#" className="hover:text-black">Case Studies</a></li>
-              <li><a href="#" className="hover:text-black">Careers</a></li>
-              <li><a href="#" className="hover:text-black">Press</a></li>
+              <li><a href="/projects/ror" className="hover:text-black">Run-of-River</a></li>
+              <li><a href="/projects/reservoir" className="hover:text-black">Reservoir</a></li>
+              <li><a href="/projects/transmission" className="hover:text-black">Grid & Substations</a></li>
+              <li><a href="/projects/om" className="hover:text-black">O&M & Upgrades</a></li>
             </ul>
           </div>
 
@@ -313,14 +312,12 @@ const Footer: React.FC = () => {
                 placeholder="you@company.com"
                 className="w-full rounded-lg bg-white border border-gray-300 px-3 py-2 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
               />
-              <button className="rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-700">
-                Join
-              </button>
+              <button className="rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-700">Join</button>
             </form>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-gray-200 pt-6 text-xs text-black/60 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="mt-10 border-top border-gray-200 pt-6 text-xs text-black/60 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>© {new Date().getFullYear()} Yeti Hydropower. All rights reserved.</div>
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-black">Privacy</a>
@@ -332,176 +329,3 @@ const Footer: React.FC = () => {
     </footer>
   )
 }
-
-/* ============================ Contact Page Content ============================ */
-const ContactPage: React.FC = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" })
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-  }
-
-  const contactInfo = [
-    { icon: MapPin, title: "Office Address", info: "Kathmandu, Nepal", detail: "Serving Nepal & South Asia" },
-    { icon: Phone, title: "Phone Number", info: "+977 1-4440000", detail: "Mon - Fri, 9:00 AM - 6:00 PM" },
-    { icon: Mail, title: "Email Address", info: "info@yetihydro.com", detail: "24/7 Support Available" },
-    { icon: Clock, title: "Business Hours", info: "Mon - Fri: 9:00 AM - 6:00 PM", detail: "Saturday: 9:00 AM - 2:00 PM" },
-  ]
-
-  return (
-    <>
-      <ScrollProgress />
-      <Header />
-
-      <main>
-        <section id="contact" className="py-16 sm:py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-14"
-            >
-              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">Get In Touch</h2>
-              <div className="w-24 h-1 bg-sky-600 mx-auto mb-6" />
-              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-                Ready to start your next hydropower project? Contact our expert team for consultation and planning.
-              </p>
-            </motion.div>
-
-            <div className="grid lg:grid-cols-2 gap-12 xl:gap-16">
-              {/* Contact Information */}
-              <motion.div
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="space-y-8"
-              >
-                <h3 className="text-2xl font-semibold text-gray-900">Contact Information</h3>
-                {contactInfo.map((item, index) => (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.06 }}
-                    viewport={{ once: true }}
-                    className="flex items-start"
-                  >
-                    <div className="w-12 h-12 bg-sky-100 rounded-2xl flex items-center justify-center mr-4 flex-shrink-0">
-                      <item.icon className="text-sky-600" size={24} />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-1">{item.title}</h4>
-                      <p className="text-gray-900 font-medium mb-1">{item.info}</p>
-                      <p className="text-gray-600 text-sm">{item.detail}</p>
-                    </div>
-                  </motion.div>
-                ))}
-
-                {/* Map placeholder */}
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="mt-2"
-                >
-                  <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-                    <h4 className="font-semibold text-gray-900 mb-4">Our Location</h4>
-                    <div className="bg-gray-100 rounded-2xl h-48 flex items-center justify-center">
-                      <div className="text-center">
-                        <MapPin className="text-sky-600 mx-auto mb-2" size={32} />
-                        <p className="text-gray-600">Interactive Map</p>
-                        <p className="text-sm text-gray-500">Kathmandu, Nepal</p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              {/* Contact Form */}
-              <motion.div
-                initial={{ opacity: 0, x: 24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-                  <h3 className="text-2xl font-semibold text-gray-900 mb-8">Send us a Message</h3>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">Name *</label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 rounded-2xl border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                          placeholder="Your full name"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-2">Email *</label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 rounded-2xl border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                          placeholder="your.email@example.com"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-2">Subject *</label>
-                      <input
-                        type="text"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 rounded-2xl border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                        placeholder="Project inquiry, consultation, etc."
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-2">Message *</label>
-                      <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                        rows={6}
-                        className="w-full px-4 py-3 rounded-2xl border border-gray-300 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-none"
-                        placeholder="Tell us about your project requirements, timeline, and any specific needs..."
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="w-full bg-sky-600 hover:bg-sky-700 text-white font-medium py-3 px-6 rounded-2xl transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-                    >
-                      Send Message
-                    </button>
-                  </form>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
-    </>
-  )
-}
-
-export default ContactPage

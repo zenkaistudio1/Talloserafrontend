@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion"
 import {
   Droplet,
@@ -16,44 +16,47 @@ import {
   Star,
 } from "lucide-react"
 
-/* ============================ Theme (Sky Blue) ============================ */
-const brand = {
-  grad: "from-sky-400 to-sky-600",
-  solid: "bg-sky-600",
-  hover: "hover:bg-sky-700",
-  ring: "focus:ring-sky-500/30",
-  accent: "text-sky-600",
-}
 
-const GlobalFixes = () => (
+/* ===== tiny style fixes & marquee util kept minimal ===== */
+export const GlobalFixes = () => (
   <style>{`
-    .clamp-2{
-      display:-webkit-box;
-      -webkit-line-clamp:2;
-      -webkit-box-orient:vertical;
-      overflow:hidden;
-    }
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
   `}</style>
 )
 
-/* ============================ Scroll Progress ============================ */
-const ScrollProgress: React.FC = () => {
+/* ===== top progress bar ===== */
+export const ScrollProgress: React.FC = () => {
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.2 })
   return <motion.div style={{ scaleX }} className="fixed left-0 right-0 top-0 z-[60] h-1 origin-left bg-sky-600" />
 }
 
-/* ============================ Header (same as improved site-wide) ============================ */
-const Header: React.FC = () => {
+/* ===== Header (sky topbar + white row, single ‘Contact Us’ CTA) ===== */
+export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [active, setActive] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState<Record<string, boolean>>({})
+
+  // --- close-delay timer for sticky hover ---
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const openMenu = (key: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setActive(key)
+  }
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    closeTimer.current = setTimeout(() => setActive(null), 120)
+  }
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8)
     window.addEventListener("scroll", onScroll)
-    return () => window.removeEventListener("scroll", onScroll)
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      if (closeTimer.current) clearTimeout(closeTimer.current)
+    }
   }, [])
 
   const navItems = [
@@ -74,10 +77,10 @@ const Header: React.FC = () => {
       href: "/projects",
       hasDropdown: true,
       dropdownItems: [
-        { label: "Run-of-River Plants", href: "/projects/ror" },
-        { label: "Reservoir Plants", href: "/projects/reservoir" },
-        { label: "Transmission & Substations", href: "/projects/transmission" },
-        { label: "O&M & Upgrades", href: "/projects/om" },
+        { label: "Run-of-River Plants", href: "/projects" },
+        { label: "Reservoir Plants", href: "/projects" },
+        { label: "Transmission & Substations", href: "/projects" },
+        { label: "O&M & Upgrades", href: "/projects" },
       ],
     },
     {
@@ -106,32 +109,24 @@ const Header: React.FC = () => {
   return (
     <>
       <header className="fixed top-0 inset-x-0 z-50">
-        {/* Sky-blue top layer */}
+        {/* sky-blue top layer */}
         <div className="hidden md:block bg-sky-600 text-white">
           <div className="mx-auto max-w-7xl px-4">
             <div className="flex h-10 items-center justify-end gap-6 text-sm">
               <div className="hidden lg:flex items-center gap-2">
                 <Phone className="h-4 w-4" />
-                <a href="tel:+97714440000" className="hover:text-white/90">
-                  +977 1-4440000
-                </a>
+                <a href="tel:+97714440000" className="hover:text-white/90">+977 1-4440000</a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                <a href="mailto:info@yetihydro.com" className="hover:text-white/90">
-                  info@yetihydro.com
-                </a>
+                <a href="mailto:info@yetihydro.com" className="hover:text-white/90">info@yetihydro.com</a>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Main row */}
-        <div
-          className={`bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 transition-all ${
-            isScrolled ? "shadow-sm border-b border-gray-200/70" : "border-b border-transparent"
-          }`}
-        >
+        {/* main row */}
+        <div className={`bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 transition-all ${isScrolled ? "shadow-sm border-b border-gray-200/70" : "border-b border-transparent"}`}>
           <div className="mx-auto max-w-7xl px-4">
             <div className="flex h-16 lg:h-20 items-center justify-between">
               {/* Logo */}
@@ -139,22 +134,20 @@ const Header: React.FC = () => {
                 <div className="grid h-10 w-10 lg:h-12 lg:w-12 place-items-center rounded-xl bg-sky-600 shadow-lg shadow-sky-600/30">
                   <Droplet className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
                 </div>
-                <div className="font-jakarta leading-tight">
+                <div className="leading-tight">
                   <div className="text-lg lg:text-xl font-semibold text-gray-900 tracking-tight">Yeti Hydropower</div>
-                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">
-                    Clean Energy
-                  </div>
+                  <div className="text-[10px] lg:text-xs text-gray-700 font-medium tracking-wider uppercase">Clean Energy</div>
                 </div>
               </a>
 
-              {/* Desktop Nav */}
+              {/* Desktop nav */}
               <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
                 {navItems.map((item) => (
                   <div
                     key={item.label}
                     className="relative"
-                    onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.label)}
-                    onMouseLeave={() => setActiveDropdown(null)}
+                    onMouseEnter={() => item.hasDropdown && openMenu(item.label)}
+                    onMouseLeave={() => item.hasDropdown && scheduleClose()}
                   >
                     <a
                       href={item.href}
@@ -167,30 +160,35 @@ const Header: React.FC = () => {
                       <span className="absolute inset-x-0 -bottom-1 h-[2px] bg-sky-600 scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100" />
                     </a>
 
-                    {item.hasDropdown && activeDropdown === item.label && (
+                    {/* Sticky dropdown: bridge (pt-3) + close delay */}
+                    {item.hasDropdown && active === item.label && (
                       <motion.div
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.16 }}
-                        className="absolute top-full left-0 mt-2 w-64 rounded-xl border border-gray-200/70 bg-white shadow-xl shadow-black/10 py-2"
+                        className="absolute left-0 top-full z-[60] pt-3" /* bridge to prevent gap */
+                        onMouseEnter={() => openMenu(item.label)}
+                        onMouseLeave={scheduleClose}
                       >
-                        {item.dropdownItems?.map((d) => (
-                          <a
-                            key={d.label}
-                            href={d.href}
-                            className="block px-4 py-2.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                          >
-                            {d.label}
-                          </a>
-                        ))}
+                        <div className="w-64 rounded-xl border border-gray-200/70 bg-white shadow-xl shadow-black/10 py-2">
+                          {item.dropdownItems?.map((d) => (
+                            <a
+                              key={d.label}
+                              href={d.href}
+                              className="block px-4 py-2.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                            >
+                              {d.label}
+                            </a>
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </div>
                 ))}
               </nav>
 
-              {/* Right CTA + mobile toggle */}
+              {/* Right: single CTA + mobile toggle */}
               <div className="flex items-center gap-4">
                 <a
                   href="/contact"
@@ -211,7 +209,7 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile menu */}
+          {/* Mobile */}
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
@@ -223,32 +221,24 @@ const Header: React.FC = () => {
               >
                 <nav className="py-2">
                   {navItems.map((item) => {
-                    const open = !!mobileOpen[item.label]
                     const has = !!item.hasDropdown
+                    const open = !!mobileOpen[item.label]
                     return (
                       <div key={item.label}>
                         <button
                           onClick={() =>
-                            has
-                              ? setMobileOpen((s) => ({ ...s, [item.label]: !s[item.label] }))
-                              : (window.location.href = item.href)
+                            has ? setMobileOpen(s => ({ ...s, [item.label]: !s[item.label] })) : (window.location.href = item.href)
                           }
                           className="w-full flex items-center justify-between px-4 py-3 text-left text-base text-gray-700 hover:bg-gray-50"
                         >
-                          <span className="font-inter">{item.label}</span>
-                          {has && (
-                            <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
-                          )}
+                          <span>{item.label}</span>
+                          {has && <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />}
                         </button>
 
                         {has && open && (
                           <div className="bg-gray-50/60 border-l-2 border-sky-600/30 ml-4">
                             {item.dropdownItems?.map((d) => (
-                              <a
-                                key={d.label}
-                                href={d.href}
-                                className="block px-4 py-2 text-sm text-gray-600 hover:text-gray-900"
-                              >
+                              <a key={d.label} href={d.href} className="block px-4 py-2 text-sm text-gray-600 hover:text-gray-900">
                                 {d.label}
                               </a>
                             ))}
@@ -257,14 +247,8 @@ const Header: React.FC = () => {
                       </div>
                     )
                   })}
-
-                  {/* Mobile CTA */}
                   <div className="px-4 pt-2 pb-4">
-                    <a
-                      href="/contact"
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
-                    >
-                      <Mail className="h-4 w-4" />
+                    <a href="/contact" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-sky-700">
                       Contact Us
                     </a>
                   </div>
@@ -275,7 +259,7 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Spacer equals header height (prevents overlap) */}
+      {/* spacer to prevent overlap */}
       <div aria-hidden className="h-16 md:h-[104px] lg:h-[120px]" />
     </>
   )

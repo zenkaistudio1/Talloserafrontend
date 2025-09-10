@@ -108,6 +108,7 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState<Record<string, boolean>>({})
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8)
@@ -115,7 +116,17 @@ const Header: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // Removed "Contact Us" from the center nav
+  // helpers for sticky hover behaviour
+  const openMenu = (key: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setActiveDropdown(key)
+  }
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    closeTimer.current = setTimeout(() => setActiveDropdown(null), 120)
+  }
+
+  // Center nav items
   const navItems = [
     { label: "Home", href: "/" },
     {
@@ -134,10 +145,10 @@ const Header: React.FC = () => {
       href: "/projects",
       hasDropdown: true,
       dropdownItems: [
-        { label: "Run-of-River Plants", href: "/projects/ror" },
-        { label: "Reservoir Plants", href: "/projects/reservoir" },
-        { label: "Transmission & Substations", href: "/projects/transmission" },
-        { label: "O&M & Upgrades", href: "/projects/om" },
+        { label: "Run-of-River Plants", href: "/projects" },
+        { label: "Reservoir Plants", href: "/projects" },
+        { label: "Transmission & Substations", href: "/projects" },
+        { label: "O&M & Upgrades", href: "/projects" },
       ],
     },
     {
@@ -155,9 +166,9 @@ const Header: React.FC = () => {
       href: "/notice",
       hasDropdown: true,
       dropdownItems: [
-        { label: "Tender Notices", href: "/notice/tender" },
-        { label: "Announcements", href: "/notice/announcements" },
-        { label: "Careers", href: "/notice/careers" },
+        { label: "Tender Notices", href: "/notice-board/tenders" },
+        { label: "Announcements", href: "/notice-board/announcements" },
+        { label: "Careers", href: "/notice-board/careers" },
       ],
     },
     { label: "Gallery", href: "/gallery" },
@@ -165,7 +176,6 @@ const Header: React.FC = () => {
 
   return (
     <>
-      {/* Header wrapper is transparent; sections inside paint their own bg */}
       <header className="fixed top-0 inset-x-0 z-50">
         {/* Sky-blue top layer */}
         <div className="hidden md:block bg-sky-600 text-white">
@@ -214,8 +224,8 @@ const Header: React.FC = () => {
                   <div
                     key={item.label}
                     className="relative"
-                    onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.label)}
-                    onMouseLeave={() => setActiveDropdown(null)}
+                    onMouseEnter={() => item.hasDropdown && openMenu(item.label)}
+                    onMouseLeave={() => item.hasDropdown && scheduleClose()}
                   >
                     <a
                       href={item.href}
@@ -228,30 +238,35 @@ const Header: React.FC = () => {
                       <span className="absolute inset-x-0 -bottom-1 h-[2px] bg-sky-600 scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100" />
                     </a>
 
+                    {/* Sticky dropdown with padding-bridge + close delay */}
                     {item.hasDropdown && activeDropdown === item.label && (
                       <motion.div
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.16 }}
-                        className="absolute top-full left-0 mt-2 w-64 rounded-xl border border-gray-200/70 bg-white shadow-xl shadow-black/10 py-2"
+                        className="absolute left-0 top-full z-[60] pt-3"     /* <- pt-3 = bridge, no gap */
+                        onMouseEnter={() => openMenu(item.label)}
+                        onMouseLeave={scheduleClose}
                       >
-                        {item.dropdownItems?.map((d) => (
-                          <a
-                            key={d.label}
-                            href={d.href}
-                            className="block px-4 py-2.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-                          >
-                            {d.label}
-                          </a>
-                        ))}
+                        <div className="w-64 rounded-xl border border-gray-200/70 bg-white shadow-xl shadow-black/10 py-2">
+                          {item.dropdownItems?.map((d) => (
+                            <a
+                              key={d.label}
+                              href={d.href}
+                              className="block px-4 py-2.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                            >
+                              {d.label}
+                            </a>
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </div>
                 ))}
               </nav>
 
-              {/* Right CTA (single Contact Us) + mobile toggle */}
+              {/* Right CTA + mobile toggle */}
               <div className="flex items-center gap-4">
                 <a
                   href="/contact"
@@ -272,7 +287,7 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile menu */}
+          {/* Mobile menu (unchanged) */}
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
@@ -319,7 +334,6 @@ const Header: React.FC = () => {
                     )
                   })}
 
-                  {/* Mobile CTA */}
                   <div className="px-4 pt-2 pb-4">
                     <a
                       href="/contact"
@@ -341,7 +355,6 @@ const Header: React.FC = () => {
     </>
   )
 }
-
 
 
 /* ============================ Hero ============================ */
@@ -681,7 +694,6 @@ const StatsSection: React.FC = () => {
 }
 
 /* ============================ Why Choose Us (BlueCard) ============================ */
-/* ============================ Why Choose Us (revamped) ============================ */
 const WhyUs: React.FC = () => {
   const pills = [
     { label: "Bankable DPRs" },
@@ -1212,7 +1224,7 @@ const Footer: React.FC = () => {
             <h4 className="font-semibold mb-3">Company</h4>
             <ul className="space-y-2 text-sm text-black/70">
               <li>
-                <a href="/about" className="hover:text-black">
+                <a href="#about" className="hover:text-black">
                   About
                 </a>
               </li>
@@ -1461,92 +1473,108 @@ const WelcomePopup: React.FC = () => {
 
 
 /* ============================ About Us Section ============================ */
+/* ============================ About Us Section (compact, aligned) ============================ */
 const AboutUsSection: React.FC = () => {
   return (
     <section className="py-16 sm:py-20 bg-gradient-to-br from-sky-50 to-blue-50">
       <div className="mx-auto max-w-7xl px-4">
-        <div className="text-center mb-12">
-          <p className="text-sm font-medium text-sky-600 mb-2 tracking-wide uppercase">WELCOME TO</p>
-          <h2 className="font-jakarta text-4xl sm:text-5xl font-bold text-gray-900 mb-4 text-balance">
+        {/* Heading */}
+        <div className="text-center mb-10 sm:mb-12">
+          <p className="text-xs sm:text-sm font-medium text-sky-600 tracking-wide uppercase">Welcome to</p>
+          <h2 className="font-jakarta text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-2">
             Yeti Hydropower Company Limited
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto text-balance">येति हाइड्रोपावर कम्पनी लिमिटेड</p>
+          <p className="mt-2 text-base sm:text-lg text-gray-600">
+            येति हाइड्रोपावर कम्पनी लिमिटेड
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Content Side */}
-          <div className="space-y-6">
-            <BlueCard className="p-8">
-              <div className="prose prose-lg max-w-none">
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Yeti Hydropower Company Limited (YHCL) is a subsidiary company of Vidhyut Utpadan Company Limited
-                  (VUCL) established in 2017 to develop Jagdulla Peaking Run-of-River Hydroelectric Project (JHEP).
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  The project site is located 750 km west of Kathmandu on Jagdulla River near Jagdulla Rural
-                  Municipality of Dolpa District in Karnali Province, contributing to Nepal's renewable energy
-                  infrastructure.
-                </p>
-              </div>
+        {/* Two-column content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          {/* Left: copy + CTAs (compact) */}
+          <BlueCard className="p-6 sm:p-8">
+            <div className="space-y-5">
+              <p className="text-gray-700 leading-relaxed">
+                Yeti Hydropower Company Limited (YHCL) is a subsidiary of Vidhyut Utpadan Company Limited (VUCL),
+                established in 2017 to develop the Jagdulla Peaking Run-of-River Hydroelectric Project (JHEP).
+              </p>
+              <p className="text-gray-700 leading-relaxed">
+                The site lies ~750 km west of Kathmandu on the Jagdulla River near Jagdulla Rural Municipality,
+                Dolpa (Karnali Province), contributing to Nepal’s renewable energy infrastructure.
+              </p>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="flex-1 inline-flex items-center justify-center px-6 py-3 rounded-lg bg-sky-600 text-white font-medium hover:bg-sky-700 transition-all duration-300">
-                  MORE ABOUT US
-                </button>
-                <button className="flex-1 inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 border-sky-600 text-sky-600 font-medium hover:bg-sky-600 hover:text-white transition-all duration-300">
-                  VIEW PROJECTS
-                </button>
+              {/* Actions – compact pill buttons */}
+              <div className="pt-1 flex flex-wrap items-center gap-3">
+                <a
+                  href="/about"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
+                             bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500/30"
+                >
+                  More About Us
+                </a>
+                <a
+                  href="/projects"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
+                             border border-sky-200 bg-white text-sky-700 hover:border-sky-300 hover:bg-sky-50
+                             focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+                >
+                  View Projects
+                </a>
               </div>
-            </BlueCard>
-          </div>
+            </div>
+          </BlueCard>
 
-          {/* Visual Side */}
-          <div className="space-y-6">
-            {/* Project Image */}
-            <BlueCard className="overflow-hidden">
+          {/* Right: project image */}
+          <BlueCard className="overflow-hidden">
+            <div className="relative aspect-[16/10] sm:aspect-[16/9]">
               <img
                 src="https://cdn-jppij.nitrocdn.com/sFgdDglQkYqdBOYEqQzqsAyZgAuSbmou/assets/images/optimized/rev-fcfdc61/nepalhydro.org/wp-content/uploads/2023/08/news-1.jpg"
-                alt="Jagdulla Hydroelectric Project Site"
-                className="w-full h-64 object-cover"
+                alt="Jagdulla Hydroelectric Project"
+                className="absolute inset-0 h-full w-full object-cover"
               />
-            </BlueCard>
-
-            {/* Leadership Team */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <BlueCard className="p-6">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-sky-100 to-sky-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <img
-                      src="/placeholder.svg?height=80&width=80"
-                      alt="Sanjay Sapkota"
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  </div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Sanjay Sapkota</h4>
-                  <p className="text-sm text-sky-600 font-medium">Chief Executive Officer</p>
-                </div>
-              </BlueCard>
-
-              <BlueCard className="p-6">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-sky-100 to-sky-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <img
-                      src="/placeholder.svg?height=80&width=80"
-                      alt="Mandira Khadka"
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  </div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Mandira Khadka</h4>
-                  <p className="text-sm text-sky-600 font-medium">Company Secretary</p>
-                </div>
-              </BlueCard>
             </div>
-          </div>
+          </BlueCard>
+        </div>
+
+        {/* Leadership (consistent height + alignment) */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <BlueCard className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="h-16 w-16 rounded-full bg-sky-100 overflow-hidden flex-shrink-0">
+                <img
+                  src="/placeholder.svg?height=64&width=64"
+                  alt="Sanjay Sapkota"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="font-semibold text-gray-900">Sanjay Sapkota</div>
+                <div className="text-sm text-sky-600 font-medium">Chief Executive Officer</div>
+              </div>
+            </div>
+          </BlueCard>
+
+          <BlueCard className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="h-16 w-16 rounded-full bg-sky-100 overflow-hidden flex-shrink-0">
+                <img
+                  src="/placeholder.svg?height=64&width=64"
+                  alt="Mandira Khadka"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="font-semibold text-gray-900">Mandira Khadka</div>
+                <div className="text-sm text-sky-600 font-medium">Company Secretary</div>
+              </div>
+            </div>
+          </BlueCard>
         </div>
       </div>
     </section>
   )
 }
+
 
 /* ============================ Salient Features Section ============================ */
 const SalientFeaturesSection: React.FC = () => {
