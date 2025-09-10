@@ -1423,25 +1423,27 @@ const WelcomePopup: React.FC = () => {
           ×
         </button>
 
-        {/* Header */}
-        <div className="border-b border-gray-200 p-4 sm:p-5">
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gray-100 rounded-full grid place-items-center">
-              <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <div className="text-center">
-              <h1 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug"> Tallosera Hydro limited</h1>
-              <h2 className="text-sm sm:text-base text-gray-700">तल्लोसेरा हाइड्रो लिमिटेड</h2>
-              <p className="text-xs text-gray-600">कार्यालय, काठमाडौं - ३२</p>
-            </div>
-          </div>
+      
+<div className="border-b border-gray-200 p-4 sm:p-5">
+  <div className="flex flex-col items-center gap-3 sm:gap-4 mb-3">
+    {/* Droplet Icon on top */}
+    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-sky-600 rounded-full grid place-items-center shadow-lg shadow-sky-600/30">
+      <Droplet className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+    </div>
 
-          <div className="bg-gray-800 text-white text-center py-1.5 px-3 rounded">
-            <h3 className="text-sm sm:text-base font-semibold">करार सेवा मा पदपूर्ति सम्बन्धी सूचना</h3>
-          </div>
-        </div>
+    {/* Text */}
+    <div className="text-center">
+      <h1 className="text-lg sm:text-xl font-bold text-gray-900 leading-snug">Tallosera Hydro limited</h1>
+      <h2 className="text-sm sm:text-base text-gray-700">तल्लोसेरा हाइड्रो लिमिटेड</h2>
+      <p className="text-xs text-gray-600">कार्यालय, काठमाडौं - ३२</p>
+    </div>
+  </div>
+
+  <div className="bg-gray-800 text-white text-center py-1.5 px-3 rounded">
+    <h3 className="text-sm sm:text-base font-semibold">करार सेवा मा पदपूर्ति सम्बन्धी सूचना</h3>
+  </div>
+</div>
+
 
         {/* Body */}
         <div className="p-4 sm:p-5">
