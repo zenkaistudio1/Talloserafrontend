@@ -202,13 +202,13 @@ const GalleryPage = () => {
 
       <main className="min-h-[60vh]">
         <section className="mx-auto max-w-7xl px-4 py-12">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Gallery</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Explore our visual journey through images and videos showcasing our hydropower facilities, 
-              construction projects, environmental initiatives, and community engagement activities.
-            </p>
+  {/* Header */}
+  <div className="text-center mb-12">
+    <h1 className="text-4xl font-bold text-gray-900 mb-4">Gallery</h1>
+    <p className="text-sm md:text-base text-gray-500 max-w-2xl mx-auto">
+      Explore our visual journey through images and videos showcasing our hydropower facilities, 
+      construction projects, environmental initiatives, and community engagement activities.
+    </p>
           </div>
 
           {/* Featured Section */}
@@ -492,97 +492,78 @@ const GalleryPage = () => {
       </main>
 
       {/* Lightbox Modal */}
-      {selectedItem && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-6xl max-h-full">
-            <button
-              onClick={closeLightbox}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+{selectedItem && (
+  <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+    <div className="relative w-full max-w-xl"> {/* much smaller modal (max ~640px) */}
+      <button
+        onClick={closeLightbox}
+        className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors"
+      >
+        <X className="h-7 w-7" />
+      </button>
+
+      <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+        <div className="relative flex items-center justify-center p-4">
+          <img
+            src={selectedItem.url}
+            alt={selectedItem.title}
+            className="max-h-[50vh] max-w-full object-contain rounded-md" 
+          />
+          {selectedItem.type === 'video' && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+              <Play className="h-12 w-12 text-white" />
+            </div>
+          )}
+        </div>
+
+        <div className="p-4">
+          <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+            {selectedItem.title}
+            <span
+              className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${getCategoryColor(
+                selectedItem.category
+              )}`}
             >
-              <X className="h-8 w-8" />
-            </button>
-            
-            <div className="bg-white rounded-lg overflow-hidden">
-              <div className="relative">
-                <img
-                  src={selectedItem.url}
-                  alt={selectedItem.title}
-                  className="w-full max-h-[70vh] object-contain"
-                />
-                {selectedItem.type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    <Play className="h-16 w-16 text-white" />
-                  </div>
-                )}
-              </div>
-              
-              <div className="p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <h3 className="text-xl font-semibold text-gray-900">{selectedItem.title}</h3>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(selectedItem.category)}`}>
-                    {selectedItem.category}
-                  </span>
-                </div>
-                
-                <p className="text-gray-600 mb-4">{selectedItem.description}</p>
-                
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                  <div>
-                    <p className="text-gray-500">Location</p>
-                    <p className="font-medium">{selectedItem.location}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-500">Date</p>
-                    <p className="font-medium">{new Date(selectedItem.date).toLocaleDateString()}</p>
-                  </div>
-                  {selectedItem.photographer && (
-                    <div>
-                      <p className="text-gray-500">Photographer</p>
-                      <p className="font-medium">{selectedItem.photographer}</p>
-                    </div>
-                  )}
-                  {selectedItem.dimensions && (
-                    <div>
-                      <p className="text-gray-500">Dimensions</p>
-                      <p className="font-medium">{selectedItem.dimensions}</p>
-                    </div>
-                  )}
-                </div>
-                
-                {selectedItem.tags.length > 0 && (
-                  <div className="mt-4">
-                    <p className="text-gray-500 text-sm mb-2">Tags</p>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedItem.tags.map(tag => (
-                        <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                <div className="mt-6 flex gap-3">
-                  <a
-                    href={selectedItem.url}
-                    download
-                    className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-                  >
-                    <Download className="h-4 w-4" />
-                    Download
-                  </a>
-                  <button
-                    onClick={closeLightbox}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
+              {selectedItem.category}
+            </span>
+          </h3>
+
+          <p className="text-gray-600 text-sm mt-2">{selectedItem.description}</p>
+
+          <div className="grid grid-cols-2 gap-3 mt-3 text-xs">
+            <div>
+              <p className="text-gray-500">Location</p>
+              <p className="font-medium">{selectedItem.location}</p>
+            </div>
+            <div>
+              <p className="text-gray-500">Date</p>
+              <p className="font-medium">
+                {new Date(selectedItem.date).toLocaleDateString()}
+              </p>
             </div>
           </div>
+
+          <div className="mt-4 flex gap-2">
+            <a
+              href={selectedItem.url}
+              download
+              className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1.5 rounded-md text-xs hover:bg-blue-600"
+            >
+              <Download className="h-3 w-3" />
+              Download
+            </a>
+            <button
+              onClick={closeLightbox}
+              className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded-md text-xs hover:bg-gray-50"
+            >
+              Close
+            </button>
+          </div>
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+)}
 
       <Footer />
     </>

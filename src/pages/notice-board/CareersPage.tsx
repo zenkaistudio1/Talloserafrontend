@@ -258,12 +258,13 @@ const CareersPage = () => {
         <section className="mx-auto max-w-7xl px-4 py-12">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Career Opportunities</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Join our team and be part of Nepal's leading hydropower company. 
-              We offer exciting career opportunities in a dynamic and growing industry.
-            </p>
-          </div>
+  <h1 className="text-4xl font-bold text-gray-900 mb-4">Career Opportunities</h1>
+  <p className="text-sm md:text-base text-gray-500 max-w-2xl mx-auto">
+    Join our team and be part of Nepal's leading hydropower company. 
+    We offer exciting career opportunities in a dynamic and growing industry.
+  </p>
+</div>
+
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

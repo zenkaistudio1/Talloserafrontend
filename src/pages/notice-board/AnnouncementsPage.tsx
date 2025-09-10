@@ -199,12 +199,13 @@ const AnnouncementsPage = () => {
         <section className="mx-auto max-w-7xl px-4 py-12">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Company Announcements</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Stay informed with the latest company news, policy updates, safety notices, 
-              and important announcements from all departments.
-            </p>
-          </div>
+  <h1 className="text-4xl font-bold text-gray-900 mb-4">Company Announcements</h1>
+  <p className="text-sm md:text-base text-gray-500 max-w-2xl mx-auto">
+    Stay informed with the latest company news, policy updates, safety notices, 
+    and important announcements from all departments.
+  </p>
+</div>
+
 
           {/* Category Navigation */}
           <div className="mb-8">

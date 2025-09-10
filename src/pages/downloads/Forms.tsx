@@ -108,15 +108,16 @@ const FormsPage = () => {
       <Header />
 
       <main className="min-h-[60vh]">
-        <section className="mx-auto max-w-7xl px-4 py-12">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Company Forms</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Access all essential forms for applications, requests, and company processes. 
-              All forms are available for immediate download in PDF format.
-            </p>
-          </div>
+      <section className="mx-auto max-w-7xl px-4 py-12">
+  {/* Header */}
+  <div className="text-center mb-12">
+    <h1 className="text-2xl font-bold text-gray-900 mb-4">Company Forms</h1>
+    <p className="text-base text-gray-600 max-w-3xl mx-auto">
+      Access all essential forms for applications, requests, and company processes. 
+      All forms are available for immediate download in PDF format.
+    </p>
+  </div>
+
 
           {/* Search and Filter Bar */}
           <div className="mb-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">

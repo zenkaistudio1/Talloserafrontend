@@ -154,16 +154,18 @@ const ProcurementPage = () => {
       <ScrollProgress />
       <Header />
 
-      <main className="min-h-[60vh]">
-        <section className="mx-auto max-w-7xl px-4 py-12">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Procurement Opportunities</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Explore current tenders, bidding opportunities, and procurement processes. 
-              Stay updated on our latest projects and partnership opportunities.
-            </p>
-          </div>
+     <main className="min-h-[60vh]">
+  <section className="mx-auto max-w-7xl px-4 py-12">
+    {/* Header */}
+    <div className="text-center mb-12">
+      <h1 className="text-2xl font-bold text-gray-900 mb-4">Procurement Opportunities</h1>
+      <p className="text-base text-gray-600 max-w-3xl mx-auto">
+        Explore current tenders, bidding opportunities, and procurement processes. 
+        Stay updated on our latest projects and partnership opportunities.
+      </p>
+    </div>
+
+
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

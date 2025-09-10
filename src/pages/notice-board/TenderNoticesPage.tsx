@@ -165,12 +165,13 @@ const TenderNoticesPage = () => {
         <section className="mx-auto max-w-7xl px-4 py-12">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Tender Notices</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Current and past tender opportunities for equipment supply, construction services, 
-              and consulting work. Submit your bids for ongoing projects.
-            </p>
-          </div>
+  <h1 className="text-4xl font-bold text-gray-900 mb-4">Tender Notices</h1>
+  <p className="text-sm md:text-base text-gray-500 max-w-2xl mx-auto">
+    Current and past tender opportunities for equipment supply, construction services, 
+    and consulting work. Submit your bids for ongoing projects.
+  </p>
+</div>
+
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
