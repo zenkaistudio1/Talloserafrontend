@@ -313,7 +313,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="mt-10 border-top border-gray-200 pt-6 text-xs text-black/60 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div>© {new Date().getFullYear()} Tallosera Hydro limited. All rights reserved.</div>
+          <div>© {new Date().getFullYear()}Tallosera Hydro limited. All rights reserved.</div>
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-black">Privacy</a>
             <a href="#" className="hover:text-black">Terms</a>

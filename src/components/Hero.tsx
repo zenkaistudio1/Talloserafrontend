@@ -142,9 +142,9 @@ const Header: React.FC = () => {
       ],
     },
     {
-      label: "Projects",
+      label: "Projects progress",
       href: "/projects",
-    
+      
     },
     {
       label: "Downloads",
