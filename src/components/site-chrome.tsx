@@ -89,7 +89,7 @@ export const Header: React.FC = () => {
     },
     {
       label: "Notice Board",
-      href: "/notice",
+      href: "/notice-board",
       hasDropdown: true,
       dropdownItems: [
         { label: "Tender Notices", href: "/notice-board/tenders" },
