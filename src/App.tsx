@@ -4,31 +4,29 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// Main pages
 import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-import ServicesPage from "./pages/ServicesPage";
+
 import ProjectsPage from "./pages/ProjectsPage";
-import ResourcesPage from "./pages/ResourcesPage";
-import CareersPage from "./pages/CareersPage";
-import NewsPage from "./pages/NewsPage";
+
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 
-// company
+// Company sub-pages
 import CompanyOverview from "./pages/company/Overview";
 import CompanyBoard from "./pages/company/Board";
 import CompanyManagement from "./pages/company/Management";
 import CompanyPolicies from "./pages/company/Policies";
 
-// downloads
+// Downloads sub-pages
 import Forms from "./pages/downloads/Forms";
 import Reports from "./pages/downloads/Reports";
 import Procurement from "./pages/downloads/Procurement";
 
-// gallery
+// Gallery sub-pages
 import GalleryPage from "./pages/gallery/GalleryPage";
 
-// notice-board
+// Notice-board sub-pages
 import AnnouncementsPage from "./pages/notice-board/AnnouncementsPage";
 import CareersNoticePage from "./pages/notice-board/CareersPage";
 import NoticeBoardPage from "./pages/notice-board/NoticeBoardPage";
@@ -44,13 +42,13 @@ const App = () => (
       <BrowserRouter>
         <div className="min-h-screen bg-background font-inter">
           <Routes>
+            {/* Landing page */}
             <Route path="/" element={<HomePage />} />
+
+            {/* Other pages */}
             
-            <Route path="/services" element={<ServicesPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/resources" element={<ResourcesPage />} />
-            <Route path="/careers" element={<CareersPage />} />
-            <Route path="/news" element={<NewsPage />} />
+           
             <Route path="/contact" element={<ContactPage />} />
             <Route path="*" element={<NotFound />} />
 
