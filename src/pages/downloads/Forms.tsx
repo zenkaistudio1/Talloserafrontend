@@ -9,6 +9,7 @@ interface FormItem {
   description: string;
   category: string;
   fileUrl: string;
+  fileName?: string; // optional: original file name from backend
   fileSize: number; // backend sends number (bytes)
   lastUpdated: string;
   downloads: number;
@@ -40,6 +41,7 @@ const FormsPage = () => {
     fetchForms();
   }, []);
 
+  // Filter forms by search and category
   const filteredForms = forms.filter(form => {
     const matchesSearch =
       form.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -48,6 +50,7 @@ const FormsPage = () => {
     return matchesSearch && matchesCategory;
   });
 
+  // Category color helper
   const getCategoryColor = (category: string) => {
     const colors = {
       HR: 'bg-blue-100 text-blue-800',
@@ -57,6 +60,31 @@ const FormsPage = () => {
       Operations: 'bg-orange-100 text-orange-800'
     };
     return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+  };
+
+  // Download handler
+  const handleDownload = async (form: FormItem) => {
+    try {
+      const response = await axios.get(`http://localhost:5000${form.fileUrl}`, {
+        responseType: 'blob', // important to get raw file
+      });
+
+      // Create blob URL and download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+
+      // Use original fileName from backend if available, otherwise extract from URL
+      const fileName = form.fileName || form.fileUrl.split('/').pop() || 'file';
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Download failed:', err);
+      alert('Failed to download file.');
+    }
   };
 
   return (
@@ -187,14 +215,13 @@ const FormsPage = () => {
                   </div>
 
                   {/* Download Button */}
-                  <a
-                    href={form.fileUrl}
+                  <button
+                    onClick={() => handleDownload(form)}
                     className="flex items-center justify-center gap-2 w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors font-medium"
-                    download
                   >
                     <Download className="h-4 w-4" />
                     Download Form
-                  </a>
+                  </button>
                 </div>
               ))}
             </div>

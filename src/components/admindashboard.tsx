@@ -1,10 +1,17 @@
+"use client"
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, Routes, Route } from "react-router-dom";
+
+// Import all admin pages
 import AdminHero from "./AdminHero"; // Hero slides management page
 import AdminFAQ from "./AdminFAQ"; // FAQ management page
 import AdminProjects from "./AdminProjects"; // Project Phases management page
 import AdminFormPage from "./AdminFormPage"; // New Forms management page
+import AdminPopupPage from "./Adminwelcompopup"; // New Popup CRUD page
+import AdminGallery from "./AdminGallery"; // Gallery CRUD page
+import MarqueeAdmin from "./AdminMarquee"; // <-- New Marquee Admin page
 
 interface DashboardStats {
   totalUsers: number;
@@ -65,6 +72,25 @@ const AdminDashboard: React.FC = () => {
           >
             Forms
           </Link>
+          <Link
+            to="/admin/popups"
+            className="px-3 py-2 rounded hover:bg-gray-200 transition"
+          >
+            Welcome Popups
+          </Link>
+          <Link
+            to="/admin/gallery"
+            className="px-3 py-2 rounded hover:bg-gray-200 transition"
+          >
+            Gallery
+          </Link>
+          {/* New Marquee Admin Link */}
+          <Link
+            to="/admin/marquee"
+            className="px-3 py-2 rounded hover:bg-gray-200 transition"
+          >
+            Marquee Items
+          </Link>
         </nav>
       </aside>
 
@@ -84,7 +110,6 @@ const AdminDashboard: React.FC = () => {
                   <p className="text-gray-500">Loading...</p>
                 ) : stats ? (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Users Card */}
                     <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
                       <h2 className="text-lg font-semibold text-gray-600">
                         Total Users
@@ -94,7 +119,6 @@ const AdminDashboard: React.FC = () => {
                       </p>
                     </div>
 
-                    {/* Orders Card */}
                     <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
                       <h2 className="text-lg font-semibold text-gray-600">
                         Total Orders
@@ -104,7 +128,6 @@ const AdminDashboard: React.FC = () => {
                       </p>
                     </div>
 
-                    {/* Revenue Card */}
                     <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
                       <h2 className="text-lg font-semibold text-gray-600">
                         Total Revenue
@@ -121,17 +144,16 @@ const AdminDashboard: React.FC = () => {
             }
           />
 
-          {/* Hero Slides Page */}
+          {/* Other admin pages */}
           <Route path="/hero-slides" element={<AdminHero />} />
-
-          {/* FAQs Page */}
           <Route path="/faqs" element={<AdminFAQ />} />
-
-          {/* Projects Page */}
           <Route path="/projects" element={<AdminProjects />} />
-
-          {/* Forms Page */}
           <Route path="/forms" element={<AdminFormPage />} />
+          <Route path="/popups" element={<AdminPopupPage />} />
+          <Route path="/gallery" element={<AdminGallery />} />
+
+          {/* New Marquee Admin Route */}
+          <Route path="/marquee" element={<MarqueeAdmin />} />
         </Routes>
       </main>
     </div>
