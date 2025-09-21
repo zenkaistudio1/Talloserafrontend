@@ -8,6 +8,7 @@ interface PopupData {
   title: string;
   subtitle?: string;
   description?: string;
+  nepaliNotice?: string;
   fileUrl: string;
   fileName: string;
 }
@@ -18,6 +19,7 @@ const AdminPopup: React.FC = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
+  const [nepaliNotice, setNepaliNotice] = useState(""); // new field
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +38,6 @@ const AdminPopup: React.FC = () => {
     fetchPopups();
   }, []);
 
-  // Handle file selection
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) setFile(e.target.files[0]);
   };
@@ -50,6 +51,7 @@ const AdminPopup: React.FC = () => {
     formData.append("title", title);
     formData.append("subtitle", subtitle);
     formData.append("description", description);
+    formData.append("nepaliNotice", nepaliNotice); // append Nepali text
     formData.append("file", file);
 
     try {
@@ -62,6 +64,7 @@ const AdminPopup: React.FC = () => {
       setTitle("");
       setSubtitle("");
       setDescription("");
+      setNepaliNotice(""); // reset Nepali field
       setFile(null);
       setModalOpen(false);
 
@@ -143,6 +146,13 @@ const AdminPopup: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 className="border px-3 py-2 rounded"
               />
+              <input
+                type="text"
+                placeholder="Nepali Notice"
+                value={nepaliNotice}
+                onChange={(e) => setNepaliNotice(e.target.value)}
+                className="border px-3 py-2 rounded"
+              />
               <input type="file" onChange={handleFileChange} />
               <button
                 type="submit"
@@ -169,6 +179,9 @@ const AdminPopup: React.FC = () => {
                   <p className="font-medium">{p.title}</p>
                   {p.subtitle && <p className="text-sm text-gray-600">{p.subtitle}</p>}
                   {p.description && <p className="text-sm text-gray-500">{p.description}</p>}
+                  {p.nepaliNotice && (
+                    <p className="text-sm text-gray-700 font-medium">{p.nepaliNotice}</p>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <a
