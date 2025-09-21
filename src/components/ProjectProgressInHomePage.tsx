@@ -1,61 +1,80 @@
-"use client"
+"use client";
 
-import React from "react"
-import { motion } from "framer-motion"
-import { CheckCircle, Clock, AlertCircle, ArrowUpRight } from "lucide-react"
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { CheckCircle, Clock, AlertCircle, ArrowUpRight } from "lucide-react";
+import axios from "axios";
+
+interface ProjectPhase {
+  _id: string;
+  phase: string;
+  title: string;
+  image?: string;
+  progress: number | string;
+  status: string;
+  description: string;
+  milestones?: string[];
+}
+
+const STATUS_COLOR_MAP: Record<string, string> = {
+  "upcoming": "text-amber-600",
+  "in progress": "text-blue-600",
+  "nearly complete": "text-emerald-600",
+};
 
 const ProjectsSection: React.FC = () => {
-  const projectPhases = [
-    {
-      image: "https://westernexcavationnd.com/wp-content/uploads/2022/08/Site-development-3-1024x683.jpeg",
-      phase: "Phase 1",
-      title: "Site Development & Infrastructure",
-      progress: 85,
-      status: "Nearly Complete",
-      statusIcon: CheckCircle,
-      statusColor: "text-emerald-600",
-      description: "Dam construction, access roads, and primary infrastructure completed. Final safety inspections in progress.",
-      milestones: ["Foundation Complete", "Access Roads Built", "Safety Systems Installed"]
-    },
-    {
-      image: "https://www.enerpac.com/ccstore/v1/images/?source=/file/v1448728257236948400/products/Turbine-Installation-SBL1100-Gantry-20141114_110327.jpg",
-      phase: "Phase 2",
-      title: "Turbine Installation & Power House",
-      progress: 68,
-      status: "In Progress",
-      statusIcon: Clock,
-      statusColor: "text-blue-600",
-      description: "Turbine assembly 70% complete. Electrical systems and control room setup underway. On schedule for Q2 completion.",
-      milestones: ["Turbines 70% Installed", "Control Room Setup", "Testing Phase Initiated"]
-    },
-    {
-      image: "https://a57.foxnews.com/media.foxbusiness.com/BrightCove/854081161001/201608/851/0/0/854081161001_5079800206001_solar-panels-ap1.jpg?ve=1&tl=1",
-      phase: "Phase 3",
-      title: "Grid Connection & Commissioning",
-      progress: 32,
-      status: "Upcoming",
-      statusIcon: AlertCircle,
-      statusColor: "text-amber-600",
-      description: "Substation construction started. Grid integration planning complete. Expected commissioning by Q3 2024.",
-      milestones: ["Substation 30% Complete", "Grid Planning Done", "Testing Protocols Ready"]
-    },
-  ]
+  const [projectPhases, setProjectPhases] = useState<ProjectPhase[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch project phases
+  const fetchPhases = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/projects");
+      setProjectPhases(res.data);
+    } catch (err) {
+      console.error("Error fetching project phases:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPhases();
+  }, []);
+
+  // Helper: get full image URL
+  const getImageUrl = (image?: string) => {
+    if (!image) return "https://via.placeholder.com/600x338?text=No+Image";
+    return `http://localhost:5000/uploads/${image}`;
+  };
 
   const getProgressColor = (progress: number) => {
-    if (progress >= 80) return "bg-emerald-500"
-    if (progress >= 50) return "bg-blue-500"
-    return "bg-amber-500"
-  }
+    if (progress >= 80) return "bg-emerald-500";
+    if (progress >= 50) return "bg-blue-500";
+    return "bg-amber-500";
+  };
 
   const getProgressBgColor = (progress: number) => {
-    if (progress >= 80) return "bg-emerald-100"
-    if (progress >= 50) return "bg-blue-100"
-    return "bg-amber-100"
-  }
+    if (progress >= 80) return "bg-emerald-100";
+    if (progress >= 50) return "bg-blue-100";
+    return "bg-amber-100";
+  };
+
+  const getStatusIcon = (status: string) => {
+    const s = status.toLowerCase();
+    if (s.includes("complete")) return CheckCircle;
+    if (s.includes("progress")) return Clock;
+    return AlertCircle;
+  };
+
+  const getStatusColor = (status: string) => {
+    return STATUS_COLOR_MAP[status.toLowerCase()] || "text-gray-600";
+  };
 
   return (
     <section id="projects" className="py-12 sm:py-16 bg-gradient-to-br from-slate-50 to-sky-50">
       <div className="mx-auto max-w-6xl px-4">
+        {/* Header */}
         <div className="mb-10 text-center">
           <h2 className="font-jakarta text-2xl sm:text-3xl lg:text-4xl font-semibold text-black mb-2">
             Current Project Progress
@@ -65,93 +84,111 @@ const ProjectsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Phase Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projectPhases.map((phase, idx) => (
-            <motion.article
-              key={phase.title}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.08 }}
-              viewport={{ once: true }}
-              className="rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg hover:-translate-y-1 transition-all border border-sky-100"
-            >
-              {/* Image */}
-              <div className="relative aspect-[16/9]">
-                <img
-                  src={phase.image}
-                  alt={phase.title}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                <div className="absolute top-2 left-2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium text-black backdrop-blur-sm shadow">
-                    {phase.phase}
-                  </span>
-                </div>
-              </div>
+        {loading ? (
+          <p className="text-center text-gray-500">Loading projects...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projectPhases.map((phase, idx) => {
+              const StatusIcon = getStatusIcon(phase.status);
+              const progress = Number(phase.progress) || 0;
+              const statusColor = getStatusColor(phase.status);
 
-              {/* Content */}
-              <div className="p-4 space-y-2">
-                {/* Status */}
-                <div className="flex items-center gap-2 text-sm">
-                  <phase.statusIcon className={`${phase.statusColor} h-4 w-4`} />
-                  <span className={`${phase.statusColor} font-medium text-sm`}>{phase.status}</span>
-                </div>
-
-                <h3 className="font-jakarta text-lg font-semibold text-black line-clamp-2">{phase.title}</h3>
-
-                {/* Progress bar */}
-                <div className="mb-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-black/70 font-medium">Progress</span>
-                    <span className="text-xs font-bold text-black">{phase.progress}%</span>
-                  </div>
-                  <div className={`w-full ${getProgressBgColor(phase.progress)} rounded-full h-2`}>
-                    <motion.div
-                      className={`${getProgressColor(phase.progress)} h-2 rounded-full`}
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${phase.progress}%` }}
-                      transition={{ duration: 1.2, delay: idx * 0.1 }}
-                      viewport={{ once: true }}
+              return (
+                <motion.article
+                  key={phase._id}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.08 }}
+                  viewport={{ once: true }}
+                  className="rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg hover:-translate-y-1 transition-all border border-sky-100"
+                >
+                  {/* Image */}
+                  <div className="relative aspect-[16/9]">
+                    <img
+                      src={getImageUrl(phase.image)}
+                      alt={phase.title || "Project Phase Image"}
+                      className="absolute inset-0 h-full w-full object-cover"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    <div className="absolute top-2 left-2">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-xs font-medium text-black backdrop-blur-sm shadow">
+                        {phase.phase}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Description */}
-                <p className="text-xs text-black/70 line-clamp-2">{phase.description}</p>
+                  {/* Content */}
+                  <div className="p-4 space-y-2">
+                    {/* Status */}
+                    <div className="flex items-center gap-2 text-sm">
+                      <StatusIcon className={`${statusColor} h-4 w-4`} />
+                      <span className={`${statusColor} font-medium text-sm`}>
+                        {phase.status}
+                      </span>
+                    </div>
 
-                {/* Milestones inline */}
-                <div className="flex flex-wrap gap-1">
-                  {phase.milestones.map((m, i) => (
-                    <span key={i} className="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">
-                      {m}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
+                    {/* Title */}
+                    <h3 className="font-jakarta text-lg font-semibold text-black line-clamp-2">
+                      {phase.title}
+                    </h3>
+
+                    {/* Progress */}
+                    <div className="mb-2">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs text-black/70 font-medium">Progress</span>
+                        <span className="text-xs font-bold text-black">{progress}%</span>
+                      </div>
+                      <div className={`w-full ${getProgressBgColor(progress)} rounded-full h-2`}>
+                        <motion.div
+                          className={`${getProgressColor(progress)} h-2 rounded-full`}
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${progress}%` }}
+                          transition={{ duration: 1.2, delay: idx * 0.1 }}
+                          viewport={{ once: true }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs text-black/70 line-clamp-2">{phase.description}</p>
+
+                    {/* Milestones */}
+                    <div className="flex flex-wrap gap-1">
+                      {(phase.milestones && phase.milestones.length > 0
+                        ? phase.milestones
+                        : ["No milestones yet"]
+                      ).map((m, i) => (
+                        <span
+                          key={`${phase._id}-${i}`}
+                          className="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full"
+                        >
+                          {m}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        )}
 
         {/* View More Button */}
         <div className="mt-8 text-center">
-  <motion.a
-    href="/projects"  // updated link
-    initial={{ opacity: 0, y: 10 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.3 }}
-    viewport={{ once: true }}
-    className="inline-flex items-center gap-2 rounded-full bg-sky-600 px-6 py-3 text-white font-medium hover:bg-sky-700 transition-colors shadow"
-  >
-    View more <ArrowUpRight className="h-4 w-4" />
-  </motion.a>
-</div>
-
+          <motion.a
+            href="/projects"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 rounded-full bg-sky-600 px-6 py-3 text-white font-medium hover:bg-sky-700 transition-colors shadow cursor-pointer"
+          >
+            View more <ArrowUpRight className="h-4 w-4" />
+          </motion.a>
+        </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-
-export default ProjectsSection
+export default ProjectsSection;

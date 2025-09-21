@@ -1,26 +1,37 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown } from "lucide-react"
+import axios from "axios"
+
+interface FAQItem {
+  _id: string
+  q: string
+  a: string
+}
 
 const FAQ: React.FC = () => {
-  const faqs = [
-    {
-      q: "Do you provide EPC for both RoR and reservoir projects?",
-      a: "Yes, we handle full EPC from civil to electro-mechanical for both plant types.",
-    },
-    {
-      q: "How do you ensure environmental compliance?",
-      a: "ESIA, biodiversity plans, and continuous community engagement aligned with national guidelines.",
-    },
-    {
-      q: "Can you support grid code compliance?",
-      a: "We execute protection studies, relay settings, and FAT/SAT to meet grid codes.",
-    },
-    { q: "Do you offer O&M after COD?", a: "Yes, including predictive maintenance, uprates, and remote SCADA." },
-  ]
+  const [faqs, setFaqs] = useState<FAQItem[]>([])
   const [open, setOpen] = useState<number | null>(0)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/faqs") // Fetch FAQs from backend
+      .then((res) => {
+        setFaqs(res.data)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error("Error fetching FAQs:", err)
+        setLoading(false)
+      })
+  }, [])
+
+  if (loading) return <p className="text-center py-16 text-gray-500">Loading FAQs...</p>
+  if (faqs.length === 0) return <p className="text-center py-16 text-gray-500">No FAQs available.</p>
+
   return (
     <section className="py-16 sm:py-24 bg-white">
       <div className="mx-auto max-w-4xl px-4">
@@ -29,7 +40,7 @@ const FAQ: React.FC = () => {
         </h2>
         <div className="divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
           {faqs.map((f, idx) => (
-            <div key={f.q} className="p-5 sm:p-6">
+            <div key={f._id} className="p-5 sm:p-6">
               <button
                 onClick={() => setOpen(open === idx ? null : idx)}
                 className="flex w-full items-center justify-between text-left"
@@ -58,6 +69,5 @@ const FAQ: React.FC = () => {
     </section>
   )
 }
-
 
 export default FAQ
