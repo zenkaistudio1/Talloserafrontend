@@ -5,17 +5,20 @@ import axios from "axios"
 import { Droplet } from "lucide-react"
 
 interface PopupData {
+  _id: string
   title: string
   subtitle?: string
   description?: string
   nepaliNotice?: string
   fileUrl?: string | null
+  fileName?: string
 }
 
 const WelcomePopup: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true)
   const [data, setData] = useState<PopupData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [downloading, setDownloading] = useState(false)
 
   // Fetch popup data from backend
   const fetchPopup = async () => {
@@ -54,6 +57,30 @@ const WelcomePopup: React.FC = () => {
   }, [isOpen])
 
   if (!isOpen) return null
+
+  // Download file from frontend
+  const handleDownload = async () => {
+    if (!data?.fileUrl || !data.fileName) return
+    try {
+      setDownloading(true)
+      const res = await axios.get(`http://localhost:5000${data.fileUrl}`, {
+        responseType: "blob", // important for binary files
+      })
+      const url = window.URL.createObjectURL(new Blob([res.data]))
+      const link = document.createElement("a")
+      link.href = url
+      link.setAttribute("download", data.fileName)
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      window.URL.revokeObjectURL(url)
+    } catch (err) {
+      console.error("Download failed:", err)
+      alert("Download failed. Please try again.")
+    } finally {
+      setDownloading(false)
+    }
+  }
 
   // Helper to detect file type
   const renderPreview = () => {
@@ -145,13 +172,15 @@ const WelcomePopup: React.FC = () => {
           {/* Actions */}
           <div className="flex flex-col sm:flex-row justify-center gap-3">
             {data?.fileUrl ? (
-              <a
-                href={`http://localhost:5000${data.fileUrl}`}
-                download
-                className="bg-sky-600 text-white px-5 py-2.5 rounded-lg hover:bg-sky-700 text-sm font-medium text-center"
+              <button
+                onClick={handleDownload}
+                disabled={downloading}
+                className={`bg-sky-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium text-center hover:bg-sky-700 ${
+                  downloading ? "opacity-60 cursor-not-allowed" : ""
+                }`}
               >
-                Download File
-              </a>
+                {downloading ? "Downloading..." : "Download File"}
+              </button>
             ) : (
               <button
                 disabled

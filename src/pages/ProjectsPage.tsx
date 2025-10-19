@@ -1,9 +1,9 @@
-import React from 'react';
-import Projects from '@/components/Projects';
+import React from "react";
+import Projects from "@/components/Projects";
 
 const ProjectsPage = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <Projects />
     </div>
   );
