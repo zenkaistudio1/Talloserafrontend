@@ -25,7 +25,7 @@ const AdminPopup: React.FC = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const API_BASE = "http://localhost:5000"
+  const API_BASE = "https://talloserabackend.onrender.com"
 
   // ---------------- Fetch Latest Popup ----------------
   const fetchPopups = async () => {
