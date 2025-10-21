@@ -5,7 +5,7 @@ import axios from "axios"
 
 interface Slide {
   _id?: string
-  image: string
+  imageUrl: string // updated to match backend
   tag: string
   titleA: string
   titleB: string
@@ -17,7 +17,7 @@ interface Slide {
 const AdminHero: React.FC = () => {
   const [slides, setSlides] = useState<Slide[]>([])
   const [form, setForm] = useState<Omit<Slide, "_id">>({
-    image: "",
+    imageUrl: "",
     tag: "",
     titleA: "",
     titleB: "",
@@ -50,7 +50,7 @@ const AdminHero: React.FC = () => {
     e.preventDefault()
     try {
       const formData = new FormData()
-      if (file) formData.append("image", file)
+      if (file) formData.append("file", file) // name must match backend multer field
       formData.append("tag", form.tag)
       formData.append("titleA", form.titleA)
       formData.append("titleB", form.titleB)
@@ -71,7 +71,7 @@ const AdminHero: React.FC = () => {
 
       // Reset form
       setForm({
-        image: "",
+        imageUrl: "",
         tag: "",
         titleA: "",
         titleB: "",
@@ -101,7 +101,7 @@ const AdminHero: React.FC = () => {
   // Edit slide
   const handleEdit = (slide: Slide) => {
     setForm({
-      image: slide.image,
+      imageUrl: slide.imageUrl,
       tag: slide.tag,
       titleA: slide.titleA,
       titleB: slide.titleB,
@@ -124,7 +124,7 @@ const AdminHero: React.FC = () => {
           setIsFormOpen(true)
           setEditingId(null)
           setForm({
-            image: "",
+            imageUrl: "",
             tag: "",
             titleA: "",
             titleB: "",
@@ -156,11 +156,12 @@ const AdminHero: React.FC = () => {
               />
 
               {/* Image Preview */}
-              {(file || form.image) && (
+              {(file || form.imageUrl) && (
                 <img
-                  src={file ? URL.createObjectURL(file) : form.image}
+                  src={file ? URL.createObjectURL(file) : form.imageUrl}
                   alt="Preview"
                   className="mb-2 w-full h-40 object-cover rounded"
+                  loading="lazy"
                 />
               )}
 
@@ -244,9 +245,10 @@ const AdminHero: React.FC = () => {
         {slides.map((slide) => (
           <div key={slide._id} className="p-4 border rounded shadow bg-white">
             <img
-              src={slide.image}
+              src={slide.imageUrl} // <-- updated
               alt={slide.titleA}
               className="mb-2 w-full h-40 object-cover rounded"
+              loading="lazy"
             />
             <p className="font-semibold">{slide.tag}</p>
             <p>
