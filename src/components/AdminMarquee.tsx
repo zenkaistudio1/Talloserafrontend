@@ -7,6 +7,7 @@ interface MarqueeItem {
   _id: string;
   title: string;
   link: string;
+  fileType: "pdf" | "image" | "link";
 }
 
 const API_URL = "https://talloserabackend.onrender.com/api/marquee";
@@ -43,9 +44,14 @@ const MarqueeAdmin: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation: must have title + (file or link)
     if (!title || (!file && !link)) {
       setError("Please provide a title and either a link or a file.");
+      return;
+    }
+
+    // Optional: restrict file types on frontend
+    if (file && !["application/pdf", "image/jpeg", "image/png"].includes(file.type)) {
+      setError("Only PDF and image files are allowed.");
       return;
     }
 
@@ -54,15 +60,14 @@ const MarqueeAdmin: React.FC = () => {
       const formData = new FormData();
       formData.append("title", title);
       if (file) formData.append("file", file);
-      if (!file && link) formData.append("link", link); // only append link if no file
+      if (!file && link) formData.append("link", link);
 
       if (editingId) {
-        await axios.put(`${API_URL}/${editingId}`, formData); // ✅ No manual headers
+        await axios.put(`${API_URL}/${editingId}`, formData);
       } else {
-        await axios.post(API_URL, formData); // ✅ No manual headers
+        await axios.post(API_URL, formData);
       }
 
-      // Reset form
       setTitle("");
       setLink("");
       setFile(null);
@@ -77,15 +82,13 @@ const MarqueeAdmin: React.FC = () => {
     }
   };
 
-  // Edit an item
   const handleEdit = (item: MarqueeItem) => {
     setTitle(item.title);
-    setLink(item.link.startsWith("/uploads/") ? "" : item.link); // clear link if it's a file
+    setLink(item.fileType === "link" ? item.link : "");
     setFile(null);
     setEditingId(item._id);
   };
 
-  // Delete an item
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this item?")) return;
 
@@ -147,6 +150,7 @@ const MarqueeAdmin: React.FC = () => {
             <tr className="bg-gray-200">
               <th className="border p-2 text-left">Title</th>
               <th className="border p-2 text-left">Link/File</th>
+              <th className="border p-2 text-left">Type</th>
               <th className="border p-2 text-left">Actions</th>
             </tr>
           </thead>
@@ -165,6 +169,7 @@ const MarqueeAdmin: React.FC = () => {
                       {item.link}
                     </a>
                   </td>
+                  <td className="border p-2 capitalize">{item.fileType}</td>
                   <td className="border p-2 flex gap-2">
                     <button
                       onClick={() => handleEdit(item)}
@@ -183,7 +188,7 @@ const MarqueeAdmin: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={3} className="text-center p-4">
+                <td colSpan={4} className="text-center p-4">
                   No items found
                 </td>
               </tr>
