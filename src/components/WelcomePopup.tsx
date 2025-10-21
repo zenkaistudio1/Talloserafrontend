@@ -23,7 +23,7 @@ const WelcomePopup: React.FC = () => {
   // Fetch popup data from backend
   const fetchPopup = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/popup")
+      const res = await axios.get("https://talloserabackend.onrender.com/api/popup")
       if (res.status === 200) {
         setData(res.data)
       } else {
@@ -63,7 +63,7 @@ const WelcomePopup: React.FC = () => {
     if (!data?.fileUrl || !data.fileName) return
     try {
       setDownloading(true)
-      const res = await axios.get(`http://localhost:5000${data.fileUrl}`, {
+      const res = await axios.get(`https://talloserabackend.onrender.com${data.fileUrl}`, {
         responseType: "blob", // important for binary files
       })
       const url = window.URL.createObjectURL(new Blob([res.data]))
@@ -93,7 +93,7 @@ const WelcomePopup: React.FC = () => {
       )
     }
 
-    const filePath = `http://localhost:5000${data.fileUrl}`
+    const filePath = `https://talloserabackend.onrender.com${data.fileUrl}`
     if (/\.(jpg|jpeg|png|gif)$/i.test(data.fileUrl)) {
       return (
         <img

@@ -18,7 +18,7 @@ const FAQ: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/faqs") // Fetch FAQs from backend
+      .get("https://talloserabackend.onrender.com/api/faqs") // Fetch FAQs from backend
       .then((res) => {
         setFaqs(res.data)
         setLoading(false)

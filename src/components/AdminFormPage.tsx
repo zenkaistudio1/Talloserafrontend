@@ -31,7 +31,7 @@ const AdminFormPage: React.FC = () => {
 
   const fetchForms = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/forms");
+      const res = await axios.get("https://talloserabackend.onrender.com/api/forms");
       setForms(res.data);
       setLoading(false);
     } catch (err) {
@@ -68,12 +68,12 @@ const AdminFormPage: React.FC = () => {
 
       if (editingForm) {
         await axios.put(
-          `http://localhost:5000/api/forms/${editingForm._id}`,
+          `https://talloserabackend.onrender.com/api/forms/${editingForm._id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
       } else {
-        await axios.post("http://localhost:5000/api/forms", formData, {
+        await axios.post("https://talloserabackend.onrender.com/api/forms", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
@@ -104,7 +104,7 @@ const AdminFormPage: React.FC = () => {
     if (!id) return;
     if (!window.confirm("Are you sure you want to delete this form?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/forms/${id}`);
+      await axios.delete(`https://talloserabackend.onrender.com/api/forms/${id}`);
       fetchForms();
     } catch (err) {
       console.error(err);
@@ -173,7 +173,7 @@ const AdminFormPage: React.FC = () => {
                 <span>{form.downloads.toLocaleString()} downloads</span>
               </div>
               <a
-                href={`http://localhost:5000${form.fileUrl}`}
+                href={`https://talloserabackend.onrender.com${form.fileUrl}`}
                 target="_blank"
                 rel="noreferrer"
                 className="text-blue-600 hover:underline text-sm"

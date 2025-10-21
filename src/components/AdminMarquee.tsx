@@ -9,7 +9,7 @@ interface MarqueeItem {
   link: string;
 }
 
-const API_URL = "http://localhost:5000/api/marquee";
+const API_URL = "https://talloserabackend.onrender.com/api/marquee";
 
 const MarqueeAdmin: React.FC = () => {
   const [items, setItems] = useState<MarqueeItem[]>([]);

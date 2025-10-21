@@ -85,7 +85,7 @@ const AdminPopup: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this popup?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/popup/admin/${id}`);
+      await axios.delete(`https://talloserabackend.onrender.com/api/popup/admin/${id}`);
       fetchPopups();
     } catch (err: any) {
       console.error("Error deleting popup:", err);
@@ -185,7 +185,7 @@ const AdminPopup: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <a
-                    href={`http://localhost:5000${p.fileUrl}`}
+                    href={`https://talloserabackend.onrender.com${p.fileUrl}`}
                     target="_blank"
                     className="text-blue-600 hover:underline text-sm"
                   >
@@ -205,7 +205,7 @@ const AdminPopup: React.FC = () => {
                 {/* Image Preview */}
                 {/\.(jpg|jpeg|png)$/i.test(p.fileUrl) && (
                   <img
-                    src={`http://localhost:5000${p.fileUrl}`}
+                    src={`https://talloserabackend.onrender.com${p.fileUrl}`}
                     alt={p.title}
                     className="max-w-sm rounded border"
                   />
@@ -214,7 +214,7 @@ const AdminPopup: React.FC = () => {
                 {/* PDF Preview */}
                 {p.fileUrl.endsWith(".pdf") && (
                   <iframe
-                    src={`http://localhost:5000${p.fileUrl}`}
+                    src={`https://talloserabackend.onrender.com${p.fileUrl}`}
                     className="w-full h-64 border rounded"
                     title="PDF Preview"
                   />

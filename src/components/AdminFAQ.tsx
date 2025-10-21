@@ -17,7 +17,7 @@ const AdminFAQ: React.FC = () => {
 
   const fetchFAQs = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/faqs");
+      const res = await axios.get("https://talloserabackend.onrender.com/api/faqs");
       setFaqs(res.data);
     } catch (err) {
       console.error(err);
@@ -32,9 +32,9 @@ const AdminFAQ: React.FC = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/faqs/${editingId}`, { q, a });
+        await axios.put(`https://talloserabackend.onrender.com/api/faqs/${editingId}`, { q, a });
       } else {
-        await axios.post("http://localhost:5000/api/faqs", { q, a });
+        await axios.post("https://talloserabackend.onrender.com/api/faqs", { q, a });
       }
       setQ("");
       setA("");
@@ -53,7 +53,7 @@ const AdminFAQ: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/faqs/${id}`);
+      await axios.delete(`https://talloserabackend.onrender.com/api/faqs/${id}`);
       fetchFAQs();
     } catch (err) {
       console.error(err);

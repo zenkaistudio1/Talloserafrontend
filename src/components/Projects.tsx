@@ -26,7 +26,7 @@ const ProjectsContinuation: React.FC = () => {
     const fetchPhases = async () => {
       try {
         // ⚡ Update the URL if backend is on a different port
-        const res = await axios.get("http://localhost:5000/api/projects")
+        const res = await axios.get("https://talloserabackend.onrender.com/api/projects")
         console.log("Backend response:", res.data)
 
         let dataArray: Phase[] = []
@@ -96,7 +96,7 @@ const ProjectsContinuation: React.FC = () => {
   }
 
   const getImageUrl = (image?: string) =>
-    image ? `http://localhost:5000/uploads/${image}` : "https://via.placeholder.com/600x338?text=No+Image"
+    image ? `https://talloserabackend.onrender.com/uploads/${image}` : "https://via.placeholder.com/600x338?text=No+Image"
 
   if (loading) return <div className="text-center py-20 text-gray-500">Loading projects...</div>
   if (error) return <div className="text-center py-20 text-red-500">{error}</div>

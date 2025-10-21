@@ -29,7 +29,7 @@ const AdminHero: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
 
-  const API_URL = "http://localhost:5000/api/slides"
+  const API_URL = "https://talloserabackend.onrender.com/api/slides"
 
   // Fetch slides
   const fetchSlides = async () => {

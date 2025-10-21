@@ -35,14 +35,14 @@ const AdminProjects: React.FC = () => {
   // Helper to get full image URL
   const getImageUrl = (image?: string | File) => {
     if (!image) return "https://via.placeholder.com/150x100?text=No+Image";
-    if (typeof image === "string") return `http://localhost:5000/uploads/${image}`;
+    if (typeof image === "string") return `https://talloserabackend.onrender.com/uploads/${image}`;
     return URL.createObjectURL(image); // preview for File object
   };
 
   // Fetch all phases
   const fetchPhases = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/projects");
+      const res = await axios.get("https://talloserabackend.onrender.com/api/projects");
       setPhases(res.data);
     } catch (err) {
       console.error(err);
@@ -137,7 +137,7 @@ const AdminProjects: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this phase?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/projects/${id}`);
+      await axios.delete(`https://talloserabackend.onrender.com/api/projects/${id}`);
       fetchPhases();
     } catch (err: any) {
       console.error(err.response || err);

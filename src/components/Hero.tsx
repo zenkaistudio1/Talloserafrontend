@@ -59,7 +59,7 @@ const Hero: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/slides")
+      .get("https://talloserabackend.onrender.com/api/slides")
       .then((res) => {
         console.log("[v0] Slides data received:", res.data)
         if (res.data.length > 0) {

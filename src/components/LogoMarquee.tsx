@@ -19,7 +19,7 @@ const MarqueeText: React.FC = () => {
     const fetchItems = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:5000/api/marquee");
+        const res = await axios.get("https://talloserabackend.onrender.com/api/marquee");
         setItems(res.data);
         setError(null);
       } catch (err) {

@@ -42,7 +42,7 @@ const GalleryPage = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/gallery");
+        const res = await axios.get("https://talloserabackend.onrender.com/api/gallery");
         setGalleryItems(res.data);
       } catch (err) {
         console.error("Error fetching gallery:", err);
@@ -155,7 +155,7 @@ const GalleryPage = () => {
                   >
                     <div className="relative aspect-video overflow-hidden">
                       <img
-                        src={`http://localhost:5000${item.imageUrl}`}
+                        src={`https://talloserabackend.onrender.com${item.imageUrl}`}
                         alt={item.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
@@ -199,7 +199,7 @@ const GalleryPage = () => {
                     >
                       <div className="relative aspect-video overflow-hidden">
                         <img
-                          src={`http://localhost:5000${item.imageUrl}`}
+                          src={`https://talloserabackend.onrender.com${item.imageUrl}`}
                           alt={item.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -237,7 +237,7 @@ const GalleryPage = () => {
                     >
                       <div className="relative w-48 aspect-video overflow-hidden rounded-lg flex-shrink-0">
                         <img
-                          src={`http://localhost:5000${item.imageUrl}`}
+                          src={`https://talloserabackend.onrender.com${item.imageUrl}`}
                           alt={item.title}
                           className="w-full h-full object-cover"
                         />
@@ -290,7 +290,7 @@ const GalleryPage = () => {
             </button>
             <div className="bg-white rounded-lg overflow-hidden shadow-lg p-4">
               <img
-                src={`http://localhost:5000${selectedItem.imageUrl}`}
+                src={`https://talloserabackend.onrender.com${selectedItem.imageUrl}`}
                 alt={selectedItem.title}
                 className="max-h-[50vh] max-w-full object-contain mb-4"
               />
@@ -298,7 +298,7 @@ const GalleryPage = () => {
               <p className="text-gray-600 mb-2">{selectedItem.description}</p>
               <div className="flex items-center gap-4 mb-2">
                 <a
-                  href={`http://localhost:5000${selectedItem.imageUrl}`}
+                  href={`https://talloserabackend.onrender.com${selectedItem.imageUrl}`}
                   download
                   className="inline-flex items-center gap-1 text-sm font-medium text-blue-500 hover:underline"
                 >

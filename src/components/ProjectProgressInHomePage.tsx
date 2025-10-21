@@ -29,7 +29,7 @@ const ProjectsSection: React.FC = () => {
   // Fetch project phases
   const fetchPhases = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/projects");
+      const res = await axios.get("https://talloserabackend.onrender.com/api/projects");
       setProjectPhases(res.data);
     } catch (err) {
       console.error("Error fetching project phases:", err);
@@ -45,7 +45,7 @@ const ProjectsSection: React.FC = () => {
   // Helper: get full image URL
   const getImageUrl = (image?: string) => {
     if (!image) return "https://via.placeholder.com/600x338?text=No+Image";
-    return `http://localhost:5000/uploads/${image}`;
+    return `https://talloserabackend.onrender.com/uploads/${image}`;
   };
 
   const getProgressColor = (progress: number) => {

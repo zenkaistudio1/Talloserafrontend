@@ -55,7 +55,7 @@ const AdminGallery: React.FC = () => {
   const fetchItems = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/gallery");
+      const res = await axios.get("https://talloserabackend.onrender.com/api/gallery");
       setItems(res.data);
     } catch (err) {
       console.error("Error fetching gallery:", err);
@@ -143,11 +143,11 @@ const AdminGallery: React.FC = () => {
 
     try {
       if (editItem) {
-        await axios.put(`http://localhost:5000/api/gallery/${editItem._id}`, data, {
+        await axios.put(`https://talloserabackend.onrender.com/api/gallery/${editItem._id}`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        await axios.post("http://localhost:5000/api/gallery", data, {
+        await axios.post("https://talloserabackend.onrender.com/api/gallery", data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
@@ -168,7 +168,7 @@ const AdminGallery: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure to delete?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/gallery/${id}`);
+      await axios.delete(`https://talloserabackend.onrender.com/api/gallery/${id}`);
       fetchItems();
     } catch (err) {
       console.error("Error deleting gallery item:", err);
@@ -206,7 +206,7 @@ const AdminGallery: React.FC = () => {
                 <td className="border p-2">{item.type}</td>
                 <td className="border p-2">
                   <img
-                    src={`http://localhost:5000${item.imageUrl}`}
+                    src={`https://talloserabackend.onrender.com${item.imageUrl}`}
                     alt={item.title}
                     className="h-16 w-24 object-cover"
                   />
