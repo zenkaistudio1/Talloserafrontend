@@ -158,7 +158,7 @@ const WelcomePopup: React.FC = () => {
           {/* Dynamic Nepali notice */}
           <div className="bg-gray-800 text-white text-center py-1.5 px-3 rounded">
             <h3 className="text-sm sm:text-base font-semibold">
-              {data?.nepaliNotice || "करार सेवा मा पदपूर्ति सम्बन्धी सूचना"}
+              {data?.nepaliNotice || "सूचना"}
             </h3>
           </div>
         </div>
