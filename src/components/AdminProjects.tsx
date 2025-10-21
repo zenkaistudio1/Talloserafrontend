@@ -120,7 +120,7 @@ const AdminProjects: React.FC = () => {
         });
         alert("Phase updated successfully!");
       } else {
-        await axios.post("http://localhost:5000/api/projects", formData, {
+        await axios.post("https://talloserabackend.onrender.com/api/projects", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("Phase added successfully!");
